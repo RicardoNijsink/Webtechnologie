@@ -50,6 +50,16 @@ public class Administratie {
 		return null;
 	}
 	
+	public Gebruiker getUser(String username){
+		for (Object objectG:gebruikers.toArray()){
+			Gebruiker g = (Gebruiker) objectG;
+			if (g.getName().equals(username)){
+				return g;
+			}
+		}
+		return null;
+	}
+	
 	public boolean isUser(String username){
 		for (Object objectG:gebruikers.toArray()){
 			Gebruiker g = (Gebruiker) objectG;

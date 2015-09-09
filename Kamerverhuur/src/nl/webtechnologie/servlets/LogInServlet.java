@@ -45,7 +45,7 @@ public class LogInServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
-		Gebruiker gebruiker =admin.getUser(name, password);
+		Gebruiker gebruiker =admin.getUser(name);
 		if (gebruiker!=null){
 			HttpSession s = request.getSession();
 			 if (!s.isNew()) {
