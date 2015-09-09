@@ -44,18 +44,25 @@ public class AddPersonServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String function = request.getParameter("function");
-		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
-		
-		if(function.equals("verhuurder")){
-			Verhuurder verhuurderToAdd = new Verhuurder(name, password);
-			admin.addGebruiker(verhuurderToAdd);
-			
+		Administratie admin = (Administratie) getServletContext().getAttribute(
+				"admin");
+		if (!admin.isUser(name)) {
+
+			if (function.equals("verhuurder")) {
+				Verhuurder verhuurderToAdd = new Verhuurder(name, password);
+				admin.addGebruiker(verhuurderToAdd);
+				response.sendRedirect("login.html");
+
+			} else if (function.equals("huurder")) {
+				Huurder huurderToAdd = new Huurder(name, password);
+				admin.addGebruiker(huurderToAdd);
+				response.sendRedirect("login.html");
+			} else {
+				// TODO not a function feedback
+			}
+		} else {
+			// TODO username alradie exist feedback
 		}
-		else if(function.equals("huurder")){
-			Huurder huurderToAdd = new Huurder(name, password);
-			admin.addGebruiker(huurderToAdd);
-		}
-		
 		
 	}
 
