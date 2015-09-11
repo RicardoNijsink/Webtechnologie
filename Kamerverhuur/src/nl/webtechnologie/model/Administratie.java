@@ -19,7 +19,7 @@ public class Administratie {
 		addGebruiker(new Beheerder("ikke", "ikke"));
 		
 		addKamer(new Kamer(150, 3, "hier", (Verhuurder)getUser("kaas5", "geiten5")));
-		addKamer(new Kamer(150, 3, "hier", (Verhuurder)getUser("kaas4", "geiten4")));
+		addKamer(new Kamer(150, 4, "hier", (Verhuurder)getUser("kaas4", "geiten4")));
 		
 	}
 	

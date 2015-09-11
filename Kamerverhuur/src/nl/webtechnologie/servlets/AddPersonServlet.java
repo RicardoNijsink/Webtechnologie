@@ -43,10 +43,11 @@ public class AddPersonServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
+		String password2 = request.getParameter("password2");
 		String function = request.getParameter("function");
 		Administratie admin = (Administratie) getServletContext().getAttribute(
 				"admin");
-		if (!admin.isUser(name)) {
+		if (!admin.isUser(name)&& password.equals(password2)) {
 
 			if (function.equals("verhuurder")) {
 				Verhuurder verhuurderToAdd = new Verhuurder(name, password);
@@ -58,7 +59,6 @@ public class AddPersonServlet extends HttpServlet {
 				admin.addGebruiker(huurderToAdd);
 				response.sendRedirect("login.html");
 			} else {
-				// TODO not a function feedback
 			}
 		} else {
 			// TODO username alradie exist feedback

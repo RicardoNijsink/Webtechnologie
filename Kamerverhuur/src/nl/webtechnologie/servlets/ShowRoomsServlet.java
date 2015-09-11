@@ -68,10 +68,11 @@ public class ShowRoomsServlet extends HttpServlet {
 				 }
 			 }else if(admin.getUser(username) instanceof Verhuurder){
 				 for (Kamer k:admin.getKamers()){
-					 if (k.getVerhuurder()==(Verhuurder)admin.getUser(username))
+					 if (k.getVerhuurder()==(Verhuurder)admin.getUser(username)){
 					 out.println("<br>prijs per maand: " + k.getHuurprijs());
 					 out.println("<br>plaats: " + k.getPlaats());
 					 out.println("<br>aantal vierkantemeters: " + k.getAantalVierkanteMeters());
+					 }
 					 if (k.getHuurder()==null){
 						 out.println("<br>" +"geen huurder");
 					 }else{
@@ -79,6 +80,7 @@ public class ShowRoomsServlet extends HttpServlet {
 					 }
 					 out.println("<br>");
 				 }
+				 out.println("<a href=\"addRoom.html\"> add a room</a>");
 			 }else if(admin.getUser(username) instanceof Huurder){
 				 for (Kamer k:admin.getKamers()){
 					 if (k.getHuurder()==(Huurder)admin.getUser(username))
@@ -88,6 +90,7 @@ public class ShowRoomsServlet extends HttpServlet {
 					 out.println("<br>verhuurder: " + k.getVerhuurder().getName());
 					 out.println("<br>");
 				 }
+				 
 			 }else{
 				 out.println("je mag dit lekker niet doen");
 				 out.println("<a href='login.html'> Back to the login</a>");

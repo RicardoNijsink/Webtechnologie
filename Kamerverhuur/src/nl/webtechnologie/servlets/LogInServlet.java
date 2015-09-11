@@ -45,7 +45,7 @@ public class LogInServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
-		Gebruiker gebruiker =admin.getUser(name);
+		Gebruiker gebruiker =admin.getUser(name, password);
 		if (gebruiker!=null){
 			HttpSession s = request.getSession();
 			 if (!s.isNew()) {
@@ -58,7 +58,7 @@ public class LogInServlet extends HttpServlet {
 			if (gebruiker instanceof Huurder){
 				response.sendRedirect("SearchRoomServlet");
 			}else if (gebruiker instanceof Verhuurder){
-				response.sendRedirect("addRoom.html");
+				response.sendRedirect("ShowRoomsServlet");
 			}else if (gebruiker instanceof Beheerder){
 				response.sendRedirect("AlleUsersServlet");
 			}

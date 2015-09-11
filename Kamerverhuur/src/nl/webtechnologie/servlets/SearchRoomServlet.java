@@ -45,9 +45,9 @@ public class SearchRoomServlet extends HttpServlet {
 		 PrintWriter out = response.getWriter();
 		    out.println("<!doctype html\">\n" +
 		                "<html>\n" +
-		                "<head><title>alle Gebruikers</title></head>\n" +
+		                "<head><title>zoek kamers</title></head>\n" +
 		                "<body>\n" +
-		                "<h1>Gebruikers</h1>\n");
+		                "<h1>zoek kamers</h1>\n");
 		 
 		if (username != null) {
 
@@ -73,43 +73,55 @@ public class SearchRoomServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String minimaalAantalVierkanteMeterString = (String) request.getParameter("aantalVierkanteMeters");
-		String maximaleHuurprijsString = (String) request.getParameter("maximaleHuurprijs");
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession s = request.getSession();
+		String minimaalAantalVierkanteMeterString = (String) request
+				.getParameter("aantalVierkanteMeters");
+		String maximaleHuurprijsString = (String) request
+				.getParameter("maximaleHuurprijs");
 		double minimaalAantalVierkanteMeter = 0.0;
 		double maximaleHuurprijs = 0.0;
-		if (!minimaalAantalVierkanteMeterString.equals("")){
-			minimaalAantalVierkanteMeter= Double.parseDouble(minimaalAantalVierkanteMeterString);
+		if (!minimaalAantalVierkanteMeterString.equals("")) {
+			minimaalAantalVierkanteMeter = Double
+					.parseDouble(minimaalAantalVierkanteMeterString);
 		}
-		if (!maximaleHuurprijsString.equals("")){
+		if (!maximaleHuurprijsString.equals("")) {
 			maximaleHuurprijs = Double.parseDouble(maximaleHuurprijsString);
 		}
-		String plaats = (String) request.getParameter("plaats");
-		
+		String username = (String) s.getAttribute("userName");
 		Administratie admin = (Administratie) getServletContext().getAttribute(
 				"admin");
+		if (username != null) {
+			String plaats = (String) request.getParameter("plaats");
 
-		PrintWriter out = response.getWriter();
-		out.println("<!doctype html\">\n" + "<html>\n"
-				+ "<head><title>Zoek kamers</title></head>\n" + "<body>\n"
-				+ "<h1>zoek kamers</h1>\n");
-		
+			PrintWriter out = response.getWriter();
+			out.println("<!doctype html\">\n" + "<html>\n"
+					+ "<head><title>Zoek kamers</title></head>\n" + "<body>\n"
+					+ "<h1>zoek kamers</h1>\n");
 
-		if (maximaleHuurprijs == 0.0) {
-			maximaleHuurprijs = Double.MAX_VALUE;
-		}
-		for (Kamer k : admin.getKamers()){
-			if (k.getAantalVierkanteMeters()>=minimaalAantalVierkanteMeter&&k.getHuurprijs()<=maximaleHuurprijs&&k.getPlaats().contains(plaats)&& k.getHuurder()==null){
-					 out.println("<br>prijs per maand: " + k.getHuurprijs());
-					 out.println("<br>plaats: " + k.getPlaats());
-					 out.println("<br>aantal vierkantemeters: " + k.getAantalVierkanteMeters());
-					 out.println("<br>verhuurder: " + k.getVerhuurder().getName());
-					 out.println("<br>");
+			if (maximaleHuurprijs == 0.0) {
+				maximaleHuurprijs = Double.MAX_VALUE;
+			}
+			for (Kamer k : admin.getKamers()) {
+				if (k.getAantalVierkanteMeters() >= minimaalAantalVierkanteMeter
+						&& k.getHuurprijs() <= maximaleHuurprijs
+						&& k.getPlaats().contains(plaats)
+						&& k.getHuurder() == null) {
+					out.println("<br>prijs per maand: " + k.getHuurprijs());
+					out.println("<br>plaats: " + k.getPlaats());
+					out.println("<br>aantal vierkantemeters: "
+							+ k.getAantalVierkanteMeters());
+					out.println("<br>verhuurder: "
+							+ k.getVerhuurder().getName());
+					out.println("<br>");
+				}
 			}
 		}
-		
+
 	}
 
 }
