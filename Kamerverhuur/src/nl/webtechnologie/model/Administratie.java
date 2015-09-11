@@ -17,7 +17,6 @@ public class Administratie {
 		addGebruiker(new Verhuurder("kaas4", "geiten4"));
 		addGebruiker(new Verhuurder("kaas5", "geiten5"));
 		addGebruiker(new Beheerder("ikke", "ikke"));
-		ArrayList<Gebruiker> g = new ArrayList<Gebruiker>();
 		
 		addKamer(new Kamer(150, 3, "hier", (Verhuurder)getUser("kaas5", "geiten5")));
 		addKamer(new Kamer(150, 3, "hier", (Verhuurder)getUser("kaas4", "geiten4")));
@@ -68,6 +67,22 @@ public class Administratie {
 			}
 		}
 		return false;
+	}
+	
+	public ArrayList<Gebruiker> getGebruikers() {
+		ArrayList<Gebruiker> g = new ArrayList<Gebruiker>();
+		for (Object objectG : gebruikers.toArray()) {
+			g.add((Gebruiker) objectG);
+		}
+		return g;
+	}
+	
+	public ArrayList<Kamer> getKamers() {
+		ArrayList<Kamer> g = new ArrayList<Kamer>();
+		for (Object objectG : kamers.toArray()) {
+			g.add((Kamer) objectG);
+		}
+		return g;
 	}
 
 }

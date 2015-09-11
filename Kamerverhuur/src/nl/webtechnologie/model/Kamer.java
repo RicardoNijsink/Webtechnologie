@@ -18,4 +18,26 @@ public class Kamer {
 		this.huurder = huurder;
 	}
 
+	public double getHuurprijs() {
+		return huurprijs;
+	}
+
+	public double getAantalVierkanteMeters() {
+		return aantalVierkanteMeters;
+	}
+
+	public String getPlaats() {
+		return plaats;
+	}
+
+	public Verhuurder getVerhuurder() {
+		return verhuurder;
+	}
+
+	public Huurder getHuurder() {
+		return huurder;
+	}
+	
+	
+
 }
