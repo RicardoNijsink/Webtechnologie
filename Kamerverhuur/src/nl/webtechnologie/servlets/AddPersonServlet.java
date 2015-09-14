@@ -26,14 +26,12 @@ public class AddPersonServlet extends HttpServlet {
      */
     public AddPersonServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -45,8 +43,8 @@ public class AddPersonServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String password2 = request.getParameter("password2");
 		String function = request.getParameter("function");
-		Administratie admin = (Administratie) getServletContext().getAttribute(
-				"admin");
+		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
+		
 		if (!admin.isUser(name)&& password.equals(password2)) {
 
 			if (function.equals("verhuurder")) {
@@ -59,9 +57,10 @@ public class AddPersonServlet extends HttpServlet {
 				admin.addGebruiker(huurderToAdd);
 				response.sendRedirect("login.html");
 			} else {
+				
 			}
 		} else {
-			// TODO username alradie exist feedback
+			// TODO username already exist feedback
 		}
 		
 	}

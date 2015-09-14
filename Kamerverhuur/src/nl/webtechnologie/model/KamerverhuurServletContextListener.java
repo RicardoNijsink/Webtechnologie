@@ -10,10 +10,11 @@ public class KamerverhuurServletContextListener implements ServletContextListene
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
+	/**
+	 * Hier wordt de adminstratie aangemaakt en aan de servletcontext meegegeven
+	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sc) {
 		ServletContext ctx = sc.getServletContext();

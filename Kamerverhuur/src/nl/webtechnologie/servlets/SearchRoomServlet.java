@@ -28,7 +28,6 @@ public class SearchRoomServlet extends HttpServlet {
      */
     public SearchRoomServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -37,17 +36,18 @@ public class SearchRoomServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession s = request.getSession();
 		String username= null;
+		
 		if (s!=null){
 			username = (String) s.getAttribute("userName");
 		}
-		 Administratie admin = (Administratie) getServletContext().getAttribute("admin");
+		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
 		 
-		 PrintWriter out = response.getWriter();
-		    out.println("<!doctype html\">\n" +
-		                "<html>\n" +
-		                "<head><title>zoek kamers</title></head>\n" +
-		                "<body>\n" +
-		                "<h1>zoek kamers</h1>\n");
+		PrintWriter out = response.getWriter();
+		out.println("<!doctype html\">\n" +
+		            "<html>\n" +
+		            "<head><title>zoek kamers</title></head>\n" +
+		            "<body>\n" +
+		            "<h1>zoek kamers</h1>\n");
 		 
 		if (username != null) {
 
@@ -62,12 +62,12 @@ public class SearchRoomServlet extends HttpServlet {
 						+ "<input type=\"text\" name=\"plaats\">"
 						+ "<input type=\"submit\" value=\"Zoek\"></form>");
 			} else {
-				out.println("je mag dit lekker niet doen");
-				out.println("<a href='login.html'> Back to the login</a>");
+				out.println("U bent hier niet voor geautoriseerd");
+				out.println("<a href='login.html'>Terug naar de inlogpagina</a>");
 			}
 		}else{
-			out.println("je mag dit lekker niet doen");
-			out.println("<a href='login.html'> Back to the login</a>");
+			out.println("U bent niet ingelogd");
+			out.println("<a href='login.html'>Terug naar de inlogpagina</a>");
 		}
 		out.println("</body></html>");
 	}
@@ -76,32 +76,32 @@ public class SearchRoomServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession s = request.getSession();
-		String minimaalAantalVierkanteMeterString = (String) request
-				.getParameter("aantalVierkanteMeters");
-		String maximaleHuurprijsString = (String) request
-				.getParameter("maximaleHuurprijs");
+		String minimaalAantalVierkanteMeterString = (String) request.getParameter("aantalVierkanteMeters");
+		String maximaleHuurprijsString = (String) request.getParameter("maximaleHuurprijs");
 		double minimaalAantalVierkanteMeter = 0.0;
 		double maximaleHuurprijs = 0.0;
+		
 		if (!minimaalAantalVierkanteMeterString.equals("")) {
-			minimaalAantalVierkanteMeter = Double
-					.parseDouble(minimaalAantalVierkanteMeterString);
+			minimaalAantalVierkanteMeter = Double.parseDouble(minimaalAantalVierkanteMeterString);
 		}
 		if (!maximaleHuurprijsString.equals("")) {
 			maximaleHuurprijs = Double.parseDouble(maximaleHuurprijsString);
 		}
+		
 		String username = (String) s.getAttribute("userName");
-		Administratie admin = (Administratie) getServletContext().getAttribute(
-				"admin");
+		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
+		
 		if (username != null) {
 			String plaats = (String) request.getParameter("plaats");
 
 			PrintWriter out = response.getWriter();
-			out.println("<!doctype html\">\n" + "<html>\n"
-					+ "<head><title>Zoek kamers</title></head>\n" + "<body>\n"
-					+ "<h1>zoek kamers</h1>\n");
+			out.println("<!doctype html\">\n" + 
+						"<html>\n" +
+						"<head><title>Zoek kamers</title></head>\n" + 
+						"<body>\n" + 
+						"<h1>zoek kamers</h1>\n");
 
 			if (maximaleHuurprijs == 0.0) {
 				maximaleHuurprijs = Double.MAX_VALUE;
@@ -113,10 +113,8 @@ public class SearchRoomServlet extends HttpServlet {
 						&& k.getHuurder() == null) {
 					out.println("<br>prijs per maand: " + k.getHuurprijs());
 					out.println("<br>plaats: " + k.getPlaats());
-					out.println("<br>aantal vierkantemeters: "
-							+ k.getAantalVierkanteMeters());
-					out.println("<br>verhuurder: "
-							+ k.getVerhuurder().getName());
+					out.println("<br>aantal vierkantemeters: " + k.getAantalVierkanteMeters());
+					out.println("<br>verhuurder: " + k.getVerhuurder().getName());
 					out.println("<br>");
 				}
 			}

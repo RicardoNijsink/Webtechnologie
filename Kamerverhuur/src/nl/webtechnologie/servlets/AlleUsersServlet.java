@@ -19,6 +19,7 @@ import nl.webtechnologie.model.Administratie;
 import nl.webtechnologie.model.Beheerder;
 import nl.webtechnologie.model.Gebruiker;
 import nl.webtechnologie.model.Huurder;
+import nl.webtechnologie.model.Verhuurder;
 
 /**
  * Servlet implementation class AlleUsersServlet
@@ -32,7 +33,6 @@ public class AlleUsersServlet extends HttpServlet {
      */
     public AlleUsersServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -44,25 +44,25 @@ public class AlleUsersServlet extends HttpServlet {
 		if (s!=null){
 			username = (String) s.getAttribute("userName");
 		}
-		 Administratie admin = (Administratie) getServletContext().getAttribute("admin");
+		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
 		 
-		 PrintWriter out = response.getWriter();
-		    out.println("<!doctype html\">\n" +
-		                "<html>\n" +
-		                "<head><title>alle Gebruikers</title></head>\n" +
-		                "<body>\n" +
-		                "<h1>Gebruikers</h1>\n");
+		PrintWriter out = response.getWriter();
+		out.println("<!doctype html\">\n" +
+		            "<html>\n" +
+		            "<head><title>alle Gebruikers</title></head>\n" +
+		            "<body>\n" +
+		            "<h1>Gebruikers</h1>\n");
 		 
 		 if (username!=null){
 			 
 			 if (admin.getUser(username) instanceof Beheerder){
 				 Cookie[] jar = request.getCookies();
-			 String aantallogin="0";
-			 boolean isCookieGevonden=false;
-			 boolean isDatumCookieGevonden = false;
-			 String datum = null;
+				 String aantalLogin="0";
+				 boolean isCookieGevonden=false;
+				 boolean isDatumCookieGevonden = false;
+				 String datum = null;
 			 
-			    if (jar != null) {
+				 if (jar != null) {
 			    			    	
 			    	for(int i=0; i<jar.length; i++) {
 			    		Cookie c = jar[i];
@@ -70,7 +70,7 @@ public class AlleUsersServlet extends HttpServlet {
 			    			c.setValue((Integer.parseInt(c.getValue())+1)+"");
 			    			response.addCookie(c);
 			    			isCookieGevonden=true;
-			    			aantallogin = c.getValue();
+			    			aantalLogin = c.getValue();
 			    		}
 			    		if (c.getName().equals("laatsteKeer")){
 			    			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -83,7 +83,7 @@ public class AlleUsersServlet extends HttpServlet {
 			    	}
 			    }
 			    if (!isCookieGevonden){
-			    Cookie myCookie = new Cookie("aantal", ""+aantallogin);
+			    Cookie myCookie = new Cookie("aantal", ""+aantalLogin);
 			    myCookie.setMaxAge(Integer.MAX_VALUE);
 			    response.addCookie(myCookie);
 			    }
@@ -94,24 +94,30 @@ public class AlleUsersServlet extends HttpServlet {
 				    myCookie.setMaxAge(Integer.MAX_VALUE);
 				    response.addCookie(myCookie);
 			    }
-			    out.println("<br>" + "aantal keer bezocht: "+ aantallogin );
+			    out.println("<br>" + "Aantal keer bezocht: "+ aantalLogin );
 			    if (datum==null){
-			    	out.println("<br>" + "nog niet eerder bezocht");
+			    	out.println("<br>" + "Nog niet eerder bezocht");
 			    }else{
-			    	out.println("<br>" + "laatste keer bezocht: "+ datum );
+			    	out.println("<br>" + "Laatste keer bezocht: "+ datum );
 			    }
 				 for (Gebruiker g:admin.getGebruikers()){
 					 out.println("<br>" + g.getName() + " " + g.getPassword());
-					 out.println("<br>" + (g.getClass()+"").substring(30));
+					 if(g instanceof Verhuurder){
+						 out.println("<br>" + "Verhuurder");
+					 }
+					 else if(g instanceof Huurder){
+						 out.println("<br>" + "Huurder");
+					 }
+					 
 					 out.println("<br>");
 				 }
 			 }else{
-				 out.println("je mag dit lekker niet doen");
-				 out.println("<a href='login.html'> Back to the login</a>");
+				 out.println("U bent hier niet voor geautoriseerd");
+				 out.println("<a href='login.html'>Terug naar de inlogpagina</a>");
 			 }
 		 }else{
-			 out.println("je bent niet in gelogd");
-			 out.println("<a href='login.html'> Back to the login</a>");
+			 out.println("U bent niet in gelogd");
+			 out.println("<a href='login.html'>Terug naar de inlogpagina</a>");
 		 }
 		 
 		    out.println("</body></html>");
@@ -121,7 +127,6 @@ public class AlleUsersServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

@@ -28,14 +28,12 @@ public class LogInServlet extends HttpServlet {
      */
     public LogInServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -46,6 +44,7 @@ public class LogInServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
 		Gebruiker gebruiker =admin.getUser(name, password);
+		
 		if (gebruiker!=null){
 			HttpSession s = request.getSession();
 			 if (!s.isNew()) {

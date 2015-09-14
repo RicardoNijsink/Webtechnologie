@@ -28,7 +28,6 @@ public class AddRoomServlet extends HttpServlet {
      */
     public AddRoomServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -37,12 +36,11 @@ public class AddRoomServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession s = request.getSession();
 		String username = (String) s.getAttribute("userName");
-		Administratie admin = (Administratie) getServletContext().getAttribute(
-				"admin");
+		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
+		
 		if (username != null) {
 			if (admin.getUser(username) instanceof Verhuurder) {
-				RequestDispatcher myDispatcher = request
-						.getRequestDispatcher("WEB-INF/addRoom.html");
+				RequestDispatcher myDispatcher = request.getRequestDispatcher("WEB-INF/addRoom.html");
 				myDispatcher.forward(request, response);
 			}
 		}
@@ -59,21 +57,19 @@ public class AddRoomServlet extends HttpServlet {
 		double aantalVierkanteMeter = 0.0;
 		double huurprijs = 0.0;
 		String username = (String) s.getAttribute("userName");
-		Administratie admin = (Administratie) getServletContext().getAttribute(
-				"admin");
+		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
+		
 		if (username!=null){
 			 if (admin.getUser(username) instanceof Verhuurder){
-		if (!aantalVierkanteMeterString.equals("")){
-			aantalVierkanteMeter= Double.parseDouble(aantalVierkanteMeterString);
-		}
-		if (!huurprijsString.equals("")){
-			huurprijs = Double.parseDouble(huurprijsString);
-		}
-		String plaats = (String) request.getParameter("plaats");
-		
-		
-		 
-		 
+				 if (!aantalVierkanteMeterString.equals("")){
+					 aantalVierkanteMeter= Double.parseDouble(aantalVierkanteMeterString);
+				 }
+				 
+				 if (!huurprijsString.equals("")){
+					 huurprijs = Double.parseDouble(huurprijsString);
+				 }
+				 
+				 String plaats = (String) request.getParameter("plaats");
 				 admin.addKamer(new Kamer(huurprijs, aantalVierkanteMeter, plaats, (Verhuurder)admin.getUser(username)));
 				 response.sendRedirect("ShowRoomsServlet");
 			 }
