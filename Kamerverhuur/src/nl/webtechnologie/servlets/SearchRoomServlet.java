@@ -14,12 +14,11 @@ import nl.webtechnologie.model.Administratie;
 import nl.webtechnologie.model.Beheerder;
 import nl.webtechnologie.model.Huurder;
 import nl.webtechnologie.model.Kamer;
-import nl.webtechnologie.model.Verhuurder;
 
 /**
  * Servlet implementation class SearchRoomServlet
  */
-@WebServlet("/SearchRoomServlet")
+@WebServlet("/SearchRoom")
 public class SearchRoomServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -48,12 +47,12 @@ public class SearchRoomServlet extends HttpServlet {
 		            "<head><title>zoek kamers</title></head>\n" +
 		            "<body>\n" +
 		            "<h1>zoek kamers</h1>\n");
-		 
+		 // controllert of je een huurder of beheerder bent en laat een form zien waarin je je query kan type
 		if (username != null) {
 
 			if (admin.getUser(username) instanceof Huurder
 					|| admin.getUser(username) instanceof Beheerder) {
-				out.print("<form action=\"SearchRoomServlet\" method=\"POST\">"
+				out.print("<form action=\"SearchRoom\" method=\"POST\">"
 						+ "<label>Minimaal Aantal vierkante meters</label>"
 						+ "<input type=\"number\" name=\"aantalVierkanteMeters\">"
 						+ "<label>Maximale huurprijs</label>"
@@ -92,11 +91,15 @@ public class SearchRoomServlet extends HttpServlet {
 		
 		String username = (String) s.getAttribute("userName");
 		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
-		
+		// controllert of je een beheerder of een verhuurdeer bent en laat dan de kamers zien die aan de 
+		//voorwarden vooldoen
 		if (username != null) {
-			String plaats = (String) request.getParameter("plaats");
-
 			PrintWriter out = response.getWriter();
+			if (admin.getUser(username) instanceof Huurder
+					|| admin.getUser(username) instanceof Beheerder) {
+				String plaats = (String) request.getParameter("plaats");
+
+			
 			out.println("<!doctype html\">\n" + 
 						"<html>\n" +
 						"<head><title>Zoek kamers</title></head>\n" + 
@@ -106,6 +109,7 @@ public class SearchRoomServlet extends HttpServlet {
 			if (maximaleHuurprijs == 0.0) {
 				maximaleHuurprijs = Double.MAX_VALUE;
 			}
+			boolean kamersGevonden = false;
 			for (Kamer k : admin.getKamers()) {
 				if (k.getAantalVierkanteMeters() >= minimaalAantalVierkanteMeter
 						&& k.getHuurprijs() <= maximaleHuurprijs
@@ -116,8 +120,25 @@ public class SearchRoomServlet extends HttpServlet {
 					out.println("<br>aantal vierkantemeters: " + k.getAantalVierkanteMeters());
 					out.println("<br>verhuurder: " + k.getVerhuurder().getName());
 					out.println("<br>");
+					kamersGevonden = true;
 				}
+				
 			}
+			if (!kamersGevonden){
+					out.println("geen kamers gevonden stel je zoek criteria bij <br>"+
+							"<a href='SearchRoom'>Terug naar de Search pagina</a>");
+				}
+			}else{
+				out.println("<!doctype html\">\n" + 
+						"<html>\n" +
+						"<head><title>Zoek kamers</title></head>\n" + 
+						"<body>\n" + 
+						"<h1>zoek kamers</h1>\n"+
+						"U bent hier niet voor geautoriseerd <br>"+
+						"<a href='login.html'>Terug naar de inlogpagina</a>");
+			}
+			out.println("</body></html>");
+			
 		}
 
 	}

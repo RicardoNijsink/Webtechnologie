@@ -19,54 +19,60 @@ import nl.webtechnologie.model.Verhuurder;
 /**
  * Servlet implementation class LogInServlet
  */
-@WebServlet("/LogInServlet")
+@WebServlet("/LogIn")
 public class LogInServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LogInServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public LogInServlet() {
+		super();
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
-		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
-		Gebruiker gebruiker =admin.getUser(name, password);
-		
-		if (gebruiker!=null){
+		Administratie admin = (Administratie) getServletContext().getAttribute(
+				"admin");
+		Gebruiker gebruiker = admin.getUser(name, password);
+
+		//controllert of je een gebruiker bent en als je dat bent maakt hijeen nieuwe sesie voor je aan 
+		if (gebruiker != null) {
 			HttpSession s = request.getSession();
-			 if (!s.isNew()) {
-				  s.invalidate();
-				  s = request.getSession();
-				  
-				 
-			  }
-			  s.setAttribute("userName", name);
-			if (gebruiker instanceof Huurder){
-				response.sendRedirect("SearchRoomServlet");
-			}else if (gebruiker instanceof Verhuurder){
-				response.sendRedirect("ShowRoomsServlet");
-			}else if (gebruiker instanceof Beheerder){
-				response.sendRedirect("AlleUsersServlet");
+			if (!s.isNew()) {
+				s.invalidate();
+				s = request.getSession();
+
 			}
-				
-		}else {
-			RequestDispatcher myDispatcher = request.getRequestDispatcher("WEB-INF/fouteLogin.html");
+			s.setAttribute("userName", name);
+			if (gebruiker instanceof Huurder) {
+				response.sendRedirect("SearchRoom");
+			} else if (gebruiker instanceof Verhuurder) {
+				response.sendRedirect("ShowRooms");
+			} else if (gebruiker instanceof Beheerder) {
+				response.sendRedirect("AlleUsers");
+			}
+
+		} else {
+			RequestDispatcher myDispatcher = request
+					.getRequestDispatcher("WEB-INF/fouteLogin.html");
 			myDispatcher.forward(request, response);
 		}
-		
+
 	}
 
 }

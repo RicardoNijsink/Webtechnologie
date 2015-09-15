@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -24,7 +23,7 @@ import nl.webtechnologie.model.Verhuurder;
 /**
  * Servlet implementation class AlleUsersServlet
  */
-@WebServlet("/AlleUsersServlet")
+@WebServlet("/AlleUsers")
 public class AlleUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -52,7 +51,7 @@ public class AlleUsersServlet extends HttpServlet {
 		            "<head><title>alle Gebruikers</title></head>\n" +
 		            "<body>\n" +
 		            "<h1>Gebruikers</h1>\n");
-		 
+		// controleert of je beheerder bent en dan print hij allse gebruikers 
 		 if (username!=null){
 			 
 			 if (admin.getUser(username) instanceof Beheerder){
@@ -61,7 +60,7 @@ public class AlleUsersServlet extends HttpServlet {
 				 boolean isCookieGevonden=false;
 				 boolean isDatumCookieGevonden = false;
 				 String datum = null;
-			 
+			 //haalt cookies op en leest je uit en update de data woor nodig
 				 if (jar != null) {
 			    			    	
 			    	for(int i=0; i<jar.length; i++) {
@@ -82,6 +81,7 @@ public class AlleUsersServlet extends HttpServlet {
 			    		}
 			    	}
 			    }
+				 //als de cookies niet gevonden zijn worden ze hier aangemaakt
 			    if (!isCookieGevonden){
 			    Cookie myCookie = new Cookie("aantal", ""+aantalLogin);
 			    myCookie.setMaxAge(Integer.MAX_VALUE);
