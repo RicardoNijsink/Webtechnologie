@@ -18,6 +18,7 @@ import nl.webtechnologie.model.Verhuurder;
 
 /**
  * Servlet implementation class LogInServlet
+ * Servlet voor het controleren van de logingegevens en het doorsturen van de ingelogde gebruiker naar de bijbehorende pagina
  */
 @WebServlet("/LogIn")
 public class LogInServlet extends HttpServlet {
@@ -34,23 +35,22 @@ public class LogInServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
-		Administratie admin = (Administratie) getServletContext().getAttribute(
-				"admin");
+		Administratie admin = (Administratie) getServletContext().getAttribute("admin");
 		Gebruiker gebruiker = admin.getUser(name, password);
 
-		//controllert of je een gebruiker bent en als je dat bent maakt hijeen nieuwe sesie voor je aan 
+		//Controleert of de gebruiker bestaat.
+		//Als dit het geval is, wordt er voor deze gebruiker een nieuwe sessie aangemaakt.
+		//Vervolgens wordt de gebruiker naar de bijbehorende pagina doorgestuurd.
 		if (gebruiker != null) {
 			HttpSession s = request.getSession();
 			if (!s.isNew()) {
@@ -68,8 +68,7 @@ public class LogInServlet extends HttpServlet {
 			}
 
 		} else {
-			RequestDispatcher myDispatcher = request
-					.getRequestDispatcher("WEB-INF/fouteLogin.html");
+			RequestDispatcher myDispatcher = request.getRequestDispatcher("WEB-INF/fouteLogin.html");
 			myDispatcher.forward(request, response);
 		}
 

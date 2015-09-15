@@ -15,6 +15,7 @@ import nl.webtechnologie.model.Verhuurder;
 
 /**
  * Servlet implementation class AddPersonServlet
+ * Servlet voor het toevoegen van een gebruiker aan de administratie
  */
 @WebServlet("/AddPerson")
 public class AddPersonServlet extends HttpServlet {
@@ -44,19 +45,19 @@ public class AddPersonServlet extends HttpServlet {
 		Administratie admin = (Administratie) getServletContext().getAttribute(
 				"admin");
 		PrintWriter out = response.getWriter();
-		//cotrooleert of alles is ingevult
+		//Controleert of alle velden zijn ingevuld. Als dit niet het geval is, wordt er een melding weergegeven.
 		if (function == null||password==null||password2==null||name==null) {
 					out.println("<!doctype html\">\n"
-							+ "<html>\n"
-					+ "<head><title>registreer</title></head>\n"
+					+ "<html>\n"
+					+ "<head><title>Registreerpagina</title></head>\n"
 					+ "<body>\n"
-					+ "<h1>registreer</h1>\n"
-					+ "niet alles is ingevult"
+					+ "<h1>Registreren mislukt</h1>\n"
+					+ "Niet alle velden zijn ingevuld"
 					+ "<a href='registreer.html'>Terug naar de registreerpagina</a>"
 					+ "</body></html>");
 		} else {
-			//controoleert of de usser al bestaat en of de paaswoords niet het zelfde zijn en als alles goed is 
-			//maakt hij een nieuwe gebruiker aan.
+			//Controleert of de gebruiker al bestaat, de ingevoerde wachtwoorden hetzelfde zijn of alles goed is ingevuld. 
+			//Als alles goed is ingevuld, wordt er een nieuwe gebruiker aangemaakt.
 			if (!admin.isUser(name)) {
 				if (password.equals(password2)) {
 
@@ -73,10 +74,10 @@ public class AddPersonServlet extends HttpServlet {
 					} else {
 						out.println("<!doctype html\">\n"
 								+ "<html>\n"
-								+ "<head><title>registreer</title></head>\n"
+								+ "<head><title>Registreerpagina</title></head>\n"
 								+ "<body>\n"
-								+ "<h1>registreer</h1>\n"
-								+ "functie is niet correct"
+								+ "<h1>Registreren mislukt</h1>\n"
+								+ "U heeft geen functie opgegeven"
 								+ "<a href='registreer.html'>Terug naar de registreerpagina</a>"
 								+ "</body></html>");
 
@@ -84,20 +85,20 @@ public class AddPersonServlet extends HttpServlet {
 				} else {
 					out.println("<!doctype html\">\n"
 							+ "<html>\n"
-							+ "<head><title>registreer</title></head>\n"
+							+ "<head><title>Registreerpagina</title></head>\n"
 							+ "<body>\n"
-							+ "<h1>registreer</h1>\n"
-							+ "passwords niet gelijk"
+							+ "<h1>Registreren mislukt</h1>\n"
+							+ "De wachtwoorden zijn niet aan elkaar gelijk"
 							+ "<a href='registreer.html'>Terug naar de registreerpagina</a>"
 							+ "</body></html>");
 				}
 			} else {
 				out.println("<!doctype html\">\n"
 						+ "<html>\n"
-						+ "<head><title>registreer</title></head>\n"
+						+ "<head><title>Registreerpagina</title></head>\n"
 						+ "<body>\n"
-						+ "<h1>registreer</h1>\n"
-						+ "username is al in gebruik"
+						+ "<h1>Registreren mislukt</h1>\n"
+						+ "De opgegeven gebruikersnaam is al in gebruik"
 						+ "<a href='registreer.html'>Terug naar de registreerpagina</a>"
 						+ "</body></html>");
 			}

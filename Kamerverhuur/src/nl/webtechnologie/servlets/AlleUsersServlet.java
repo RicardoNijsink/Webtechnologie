@@ -22,6 +22,7 @@ import nl.webtechnologie.model.Verhuurder;
 
 /**
  * Servlet implementation class AlleUsersServlet
+ * Servlet voor het geven van een overzicht van alle gebruikers binnen de administratie
  */
 @WebServlet("/AlleUsers")
 public class AlleUsersServlet extends HttpServlet {
@@ -48,10 +49,12 @@ public class AlleUsersServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("<!doctype html\">\n" +
 		            "<html>\n" +
-		            "<head><title>alle Gebruikers</title></head>\n" +
+		            "<head><title>Gebruikersoverzicht</title></head>\n" +
 		            "<body>\n" +
 		            "<h1>Gebruikers</h1>\n");
-		// controleert of je beheerder bent en dan print hij allse gebruikers 
+		
+		//Controleert of de ingelogde gebruiker beheerder is.
+		//Als dat het geval is, dan worden alle cookies opgehaald en wordt het overzicht van alle gebruikers gegeven.
 		 if (username!=null){
 			 
 			 if (admin.getUser(username) instanceof Beheerder){
@@ -60,7 +63,9 @@ public class AlleUsersServlet extends HttpServlet {
 				 boolean isCookieGevonden=false;
 				 boolean isDatumCookieGevonden = false;
 				 String datum = null;
-			 //haalt cookies op en leest je uit en update de data woor nodig
+				 
+				 //Haalt alle cookies op en leest de gezochte cookies uit.
+				 //Vervolgens worden de gegevens van de cookies bijgewerkt en worden de cookies weer meegegeven aan de response
 				 if (jar != null) {
 			    			    	
 			    	for(int i=0; i<jar.length; i++) {
@@ -81,11 +86,11 @@ public class AlleUsersServlet extends HttpServlet {
 			    		}
 			    	}
 			    }
-				 //als de cookies niet gevonden zijn worden ze hier aangemaakt
+				 //Als de gezochte cookies niet gevonden zijn, worden ze hier aangemaakt
 			    if (!isCookieGevonden){
-			    Cookie myCookie = new Cookie("aantal", ""+aantalLogin);
-			    myCookie.setMaxAge(Integer.MAX_VALUE);
-			    response.addCookie(myCookie);
+				    Cookie myCookie = new Cookie("aantal", ""+aantalLogin);
+				    myCookie.setMaxAge(Integer.MAX_VALUE);
+				    response.addCookie(myCookie);
 			    }
 			    if (!isDatumCookieGevonden){
 			    	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
