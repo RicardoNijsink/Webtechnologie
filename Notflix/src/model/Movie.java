@@ -1,8 +1,9 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Movie {
+	private static int lastvolgnummer;
 	private int volgnummer;
 	private int imdb_nummer;
 	private String titel;
@@ -11,6 +12,22 @@ public class Movie {
 	private String regisseur;
 	private String beschrijving;
 	
+	
+	
+	public Movie(int imdb_nummer, String titel,
+			Date release_datum, double lengte, String regisseur,
+			String beschrijving) {
+		super();
+		this.volgnummer = lastvolgnummer;
+		lastvolgnummer++;
+		this.imdb_nummer = imdb_nummer;
+		this.titel = titel;
+		this.release_datum = release_datum;
+		this.lengte = lengte;
+		this.regisseur = regisseur;
+		this.beschrijving = beschrijving;
+	}
+
 	public int getVolgnummer() {
 		return volgnummer;
 	}
