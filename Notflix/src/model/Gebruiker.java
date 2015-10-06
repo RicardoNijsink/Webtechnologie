@@ -17,6 +17,14 @@ public class Gebruiker {
 	private ArrayList<Rating> ratings;
 	private String token;
 	
+	public Gebruiker() {
+	}
+	
+	public Gebruiker(String voornaam, String achternaam) {
+		this.voornaam = voornaam;
+		this.achternaam = achternaam;
+	}
+	
 	public String getAchternaam() {
 		return achternaam;
 	}

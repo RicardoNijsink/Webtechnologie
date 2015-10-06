@@ -35,12 +35,12 @@ public class GebruikerResource {
 	}
 	
 	@GET
-	@Path("{id}")
+	@Path("{nickname}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Gebruiker getGebruiker(@PathParam("id") int id) {
+	public Gebruiker getGebruiker(@PathParam("nickname") String nickname) {
 		Model model = (Model) context.getAttribute("model"); 
 		
-		return model.getGebruikers().get(0);
+		return model.getGebruiker(nickname);
 	}
 
 }
