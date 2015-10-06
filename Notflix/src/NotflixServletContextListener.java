@@ -10,7 +10,6 @@ public class NotflixServletContextListener implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		
 	}
 
 	@Override
@@ -20,6 +19,7 @@ public class NotflixServletContextListener implements ServletContextListener{
 		Model model = new Model();
 		ctx.setAttribute("model", model);
 		
+		System.out.println(model.getMovies().get(0).getTitel());
 	}
 
 }

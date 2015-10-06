@@ -9,5 +9,6 @@ public class MyREST extends ResourceConfig {
 		super();
 		System.out.println("test");
 		packages("resource");
+		register(com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider.class);
 	}
 }

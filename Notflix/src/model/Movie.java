@@ -2,6 +2,9 @@ package model;
 
 import java.sql.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Movie {
 	private static int lastvolgnummer;
 	private int volgnummer;
@@ -12,11 +15,10 @@ public class Movie {
 	private String regisseur;
 	private String beschrijving;
 	
+	public Movie() {
+	}
 	
-	
-	public Movie(int imdb_nummer, String titel,
-			Date release_datum, double lengte, String regisseur,
-			String beschrijving) {
+	public Movie(int imdb_nummer, String titel, Date release_datum, double lengte, String regisseur, String beschrijving) {
 		super();
 		this.volgnummer = lastvolgnummer;
 		lastvolgnummer++;
@@ -35,7 +37,7 @@ public class Movie {
 	public int getImdb_nummer() {
 		return imdb_nummer;
 	}
-	
+
 	public String getTitel() {
 		return titel;
 	}
@@ -54,6 +56,34 @@ public class Movie {
 	
 	public String getBeschrijving() {
 		return beschrijving;
+	}
+
+	public void setVolgnummer(int volgnummer) {
+		this.volgnummer = volgnummer;
+	}
+
+	public void setImdb_nummer(int imdb_nummer) {
+		this.imdb_nummer = imdb_nummer;
+	}
+
+	public void setTitel(String titel) {
+		this.titel = titel;
+	}
+
+	public void setRelease_datum(Date release_datum) {
+		this.release_datum = release_datum;
+	}
+
+	public void setLengte(double lengte) {
+		this.lengte = lengte;
+	}
+
+	public void setRegisseur(String regisseur) {
+		this.regisseur = regisseur;
+	}
+
+	public void setBeschrijving(String beschrijving) {
+		this.beschrijving = beschrijving;
 	}
 
 }

@@ -2,27 +2,48 @@ package model;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Model {
 	private ArrayList<Movie> movies= new ArrayList<Movie>();
-	private ArrayList<Gebruiker> gebruikers= new ArrayList<Gebruiker>();
+	private List<Gebruiker> gebruikers= new ArrayList<Gebruiker>();
 	private ArrayList<Rating> ratings= new ArrayList<Rating>();
 	
 	public Model() {
-		movies.add(new Movie(1235, "kaas", Date.valueOf("2015-12-12"), 9.0, "ik", "heel mooi" ));
-		
+		movies.add(new Movie(1235, "kaas", Date.valueOf("2015-12-12"), 9.0, "ik", "heel mooi"));
 	}
 	
+	@XmlElement(name = "movie")
+	@XmlElementWrapper(name = "movies")
 	public ArrayList<Movie> getMovies() {
 		return movies;
 	}
 	
-	public ArrayList<Gebruiker> getGebruikers() {
+	public void setMovies(ArrayList<Movie> movies) {
+		this.movies = movies;
+	}
+
+	@XmlElement(name = "gebruiker")
+	@XmlElementWrapper(name = "gebruikers")
+	public List<Gebruiker> getGebruikers() {
 		return gebruikers;
+	}
+	
+	public void setGebruikers(List<Gebruiker> gebruikers) {
+		this.gebruikers = gebruikers;
 	}
 	
 	public ArrayList<Rating> getRatings() {
 		return ratings;
+	}
+	
+	public void setRatings(ArrayList<Rating> ratings) {
+		this.ratings = ratings;
 	}
 	
 	public Movie getMovie(int id) {

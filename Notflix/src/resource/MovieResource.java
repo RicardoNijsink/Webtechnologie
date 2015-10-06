@@ -25,7 +25,11 @@ public class MovieResource {
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public ArrayList<Movie> getMovies() {
-		return model.getMovies();
+		if(model != null){
+			System.out.println("geen model");
+			return model.getMovies();
+		}
+		return new ArrayList<>();
 	}
 	
 	@GET
