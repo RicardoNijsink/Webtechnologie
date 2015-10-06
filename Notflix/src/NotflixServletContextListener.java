@@ -5,6 +5,12 @@ import javax.servlet.annotation.WebListener;
 
 import model.Model;
 
+/**
+ * Class voor het aanmaken van een instantie van het model.
+ * Vervolgens wordt deze instantie van het model aan de context toegevoegd.
+ * @author Ricardo
+ *
+ */
 @WebListener
 public class NotflixServletContextListener implements ServletContextListener{
 

@@ -7,6 +7,11 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * Class waarin de gegevens van een gebruiker worden opgeslagen
+ * @author Ricardo
+ *
+ */
 @XmlRootElement
 public class Gebruiker {
 	private String achternaam;
@@ -20,9 +25,16 @@ public class Gebruiker {
 	public Gebruiker() {
 	}
 	
-	public Gebruiker(String voornaam, String achternaam) {
+	/**
+	 * Constructor van een gebruiker
+	 * @param voornaam De voornaam van de gebruiker
+	 * @param achternaam De achternaam van de gebruiker
+	 * @param nickname De nickname van de gebruiker
+	 */
+	public Gebruiker(String voornaam, String achternaam, String nickname) {
 		this.voornaam = voornaam;
 		this.achternaam = achternaam;
+		this.nickname = nickname;
 	}
 	
 	public String getAchternaam() {
@@ -78,19 +90,23 @@ public class Gebruiker {
 		return token;
 	}
 	
+	/**
+	 * Methode voor het genereren van een logintoken van een gebruiker
+	 */
 	public void genToken(){
 		token = nickname;
 		
 		for (int i = 0; i < 15; i++) {
 			int random = (int) (Math.random() * 50);
 			random = random + 65;
+			
 			if (random > 90) {
 				random = random + 6;
+			
 			}
 			char charac = (char) random;
 			token = token + charac;
 		}
-		
 	}
 	
 }

@@ -4,6 +4,11 @@ import java.sql.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Class waarin de gegevens van een film worden opgeslagen
+ * @author Ricardo
+ *
+ */
 @XmlRootElement
 public class Movie {
 	private static int lastvolgnummer;
@@ -18,6 +23,15 @@ public class Movie {
 	public Movie() {
 	}
 	
+	/**
+	 * Constructor van een film
+	 * @param imdb_nummer Het IMDB-nummer van de film
+	 * @param titel De titel van de film
+	 * @param release_datum De release datum van de film
+	 * @param lengte De lengte van de film in minuten
+	 * @param regisseur De regisseur van de film
+	 * @param beschrijving De beschrijving van de film
+	 */
 	public Movie(int imdb_nummer, String titel, Date release_datum, double lengte, String regisseur, String beschrijving) {
 		super();
 		this.volgnummer = lastvolgnummer;
