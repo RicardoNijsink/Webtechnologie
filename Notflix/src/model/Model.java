@@ -38,6 +38,15 @@ public class Model {
 		this.gebruikers = gebruikers;
 	}
 	
+	public Gebruiker getGebruiker(String nickname) {
+		for(Gebruiker g : gebruikers){
+			if(g.getNickname().equals(nickname)){
+				return g;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<Rating> getRatings() {
 		return ratings;
 	}
