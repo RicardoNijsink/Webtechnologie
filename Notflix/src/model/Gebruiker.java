@@ -9,6 +9,9 @@ public class Gebruiker {
 	private String nickname;
 	private String wachtwoord;
 	private ArrayList<Rating> ratings;
+	private String token;
+	
+	
 	
 	public String getAchternaam() {
 		return achternaam;
@@ -33,4 +36,27 @@ public class Gebruiker {
 	public ArrayList<Rating> getRatings() {
 		return ratings;
 	}
+	
+	public String getToken(){
+		if (token==null){
+			genToken();
+		}
+		return token;
+	}
+	
+	public void genToken(){
+		token = nickname;
+		
+		for (int i = 0; i < 15; i++) {
+			int random = (int) (Math.random() * 50);
+			random = random + 65;
+			if (random > 90) {
+				random = random + 6;
+			}
+			char charac = (char) random;
+			token = token + charac;
+		}
+		
+	}
+	
 }
