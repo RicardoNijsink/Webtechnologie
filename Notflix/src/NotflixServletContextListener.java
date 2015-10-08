@@ -25,7 +25,7 @@ public class NotflixServletContextListener implements ServletContextListener{
 		Model model = new Model();
 		ctx.setAttribute("model", model);
 		
-		System.out.println(model.getMovies().get(0).getTitel());
+		System.out.println(model.getMovies()[0].getTitel());
 	}
 
 }

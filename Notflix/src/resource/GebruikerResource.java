@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -45,15 +46,19 @@ public class GebruikerResource {
 	@GET
 	@Path("{nickname}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getGebruiker(@PathParam("nickname") String nickname) {
+	public Response getGebruiker(@HeaderParam("Authorization") String token, 
+			@PathParam("nickname") String nickname) {
 		Model model = (Model) context.getAttribute("model"); 
-		
+		if (model.isGebruikerByToken(token)) {
+			return Response.status(401).build();
+		} else {
 		Gebruiker gebruiker = model.getGebruiker(nickname);
 		
 		if(gebruiker != null){
 			return Response.ok().entity(model.getGebruiker(nickname)).build();
 		}
-		return Response.status(404).build();
+			return Response.status(404).build();
+		}
 	}
 	
 	/**
@@ -67,25 +72,31 @@ public class GebruikerResource {
 	@POST
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response postGebruiker(@Context HttpServletRequest request, @FormParam(value = "achternaam") String achternaam,
-			@FormParam(value = "voornaam") String voornaam, @FormParam(value = "nickname") String nickname,
-			@FormParam(value = "tussenvoegsel") String tussenvoegsel, @FormParam(value = "wachtwoord") String wachtwoord) {
-		
+	public Response postGebruiker(@HeaderParam("Authorization") String token, @Context HttpServletRequest request,
+			@FormParam(value = "achternaam") String achternaam, @FormParam(value = "voornaam") String voornaam,
+			@FormParam(value = "nickname") String nickname, @FormParam(value = "tussenvoegsel") String tussenvoegsel,
+			@FormParam(value = "wachtwoord") String wachtwoord) {
+
 		Model model = (Model) context.getAttribute("model");
-		
-		if(voornaam ==null || achternaam == null || nickname == null || wachtwoord == null ||
-			voornaam.length() < 0 || achternaam.length() < 0 || nickname.length() < 0 || wachtwoord.length() < 0){
-			return Response.status(400).build();
-			//TODO error message
+		if (model.isGebruikerByToken(token)) {
+			return Response.status(401).build();
+		} else {
+			if (voornaam == null || achternaam == null || nickname == null || wachtwoord == null
+					|| voornaam.length() < 0 || achternaam.length() < 0 || nickname.length() < 0
+					|| wachtwoord.length() < 0) {
+				return Response.status(400).build();
+				// TODO error message
+			}
+
+			Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname,
+					wachtwoord);
+
+			if (toegevoegdeGebruiker == null) {
+				return Response.status(409).build();
+			}
+
+			return Response.status(201).entity(toegevoegdeGebruiker).build();
 		}
-		
-		Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord);
-		
-		if(toegevoegdeGebruiker == null){
-			return Response.status(409).build();
-		}
-		
-		return Response.status(201).entity(toegevoegdeGebruiker).build();
 	}
 
 }

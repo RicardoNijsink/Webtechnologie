@@ -3,6 +3,9 @@ package model;
 import java.sql.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Class waarin de gegevens van een film worden opgeslagen
@@ -15,7 +18,7 @@ public class Movie {
 	private int volgnummer;
 	private int imdb_nummer;
 	private String titel;
-	private Date release_datum;
+	private String release_datum;
 	private double lengte;
 	private String regisseur;
 	private String beschrijving;
@@ -32,7 +35,7 @@ public class Movie {
 	 * @param regisseur De regisseur van de film
 	 * @param beschrijving De beschrijving van de film
 	 */
-	public Movie(int imdb_nummer, String titel, Date release_datum, double lengte, String regisseur, String beschrijving) {
+	public Movie(int imdb_nummer, String titel, String release_datum, double lengte, String regisseur, String beschrijving) {
 		super();
 		this.volgnummer = lastvolgnummer;
 		lastvolgnummer++;
@@ -44,6 +47,8 @@ public class Movie {
 		this.beschrijving = beschrijving;
 	}
 
+	@XmlTransient
+	@JsonIgnore
 	public int getVolgnummer() {
 		return volgnummer;
 	}
@@ -56,7 +61,7 @@ public class Movie {
 		return titel;
 	}
 	
-	public Date getRelease_datum() {
+	public String getRelease_datum() {
 		return release_datum;
 	}
 	
@@ -84,7 +89,7 @@ public class Movie {
 		this.titel = titel;
 	}
 
-	public void setRelease_datum(Date release_datum) {
+	public void setRelease_datum(String release_datum) {
 		this.release_datum = release_datum;
 	}
 

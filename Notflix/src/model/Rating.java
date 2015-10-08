@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Rating {
 	private double rating;
-	private Movie movie;
+	private String movieId;
 	
 	public Rating() {
 	}
@@ -20,25 +20,27 @@ public class Rating {
 	 * @param rating De gegeven rating
 	 * @param movie De film welke beoordeeld is
 	 */
-	public Rating(double rating, Movie movie) {
+	public Rating(double rating, String movieId) {
 		this.rating = rating;
-		this.movie = movie;
+		this.movieId = movieId;
 	}
 	
 	public double getRating() {
 		return rating;
 	}
 	
-	public Movie getMovie() {
-		return movie;
-	}
-	
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-	
-	public void setMovie(Movie movie) {
-		this.movie = movie;
+
+	public String getMovieId() {
+		return movieId;
 	}
+
+	public void setMovieId(String movieId) {
+		this.movieId = movieId;
+	}
+	
+	
 
 }

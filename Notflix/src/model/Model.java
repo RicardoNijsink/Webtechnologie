@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +19,12 @@ public class Model {
 	private ArrayList<Rating> ratings= new ArrayList<Rating>();
 	
 	public Model() {
-		movies.add(new Movie(1235, "kaas", Date.valueOf("2015-12-12"), 9.0, "ik", "heel mooi"));
+		movies.add(new Movie(1235, "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
 		gebruikers.add(new Gebruiker("test", "test", "test", "test", "test"));
+		gebruikers.get(0).genToken();
+		gebruikers.get(0).addRating(new Rating(5.0, "1235"));
+		movies.add(new Movie(123567, "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		
 	}
 	
 	/**
@@ -30,8 +33,14 @@ public class Model {
 	 */
 	@XmlElement(name = "movie")
 	@XmlElementWrapper(name = "movies")
-	public ArrayList<Movie> getMovies() {
-		return movies;
+	public Movie[] getMovies() {
+		Movie[] movieslist = new Movie[movies.size()];
+		int i = 0;
+		for (Movie m : movies){
+			movieslist[i] = m;
+			i++;
+		}
+		return movieslist;
 	}
 	
 	public void setMovies(ArrayList<Movie> movies) {
@@ -64,6 +73,24 @@ public class Model {
 			}
 		}
 		return null;
+	}
+	
+	public Gebruiker getGebruikerByToken(String token) {
+		for(Gebruiker g : gebruikers){
+			if(g.getToken().equals(token)){
+				return g;
+			}
+		}
+		return null;
+	}
+	
+	public boolean isGebruikerByToken(String token) {
+		for(Gebruiker g : gebruikers){
+			if(g.getToken().equals(token)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -112,5 +139,32 @@ public class Model {
 		}
 		
 		return movie;
+	}
+	
+	public Movie[] getRatedMovies() {
+		ArrayList<Movie> ratedMovieslist = new ArrayList<>();
+		for (Movie m : movies){
+			if (hasRating(m.getImdb_nummer()+"")){
+				ratedMovieslist.add(m);
+			}
+		}
+		
+		Movie[] ratedMovies = new Movie[ratedMovieslist.size()];
+		int i = 0;
+		for (Movie m : ratedMovieslist){
+			ratedMovies[i] = m;
+			i++;
+		}
+		return ratedMovies;
+	}
+	
+	private boolean hasRating(String imdbId){
+		for (Gebruiker g: gebruikers){
+			if (g.isRated(imdbId)){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

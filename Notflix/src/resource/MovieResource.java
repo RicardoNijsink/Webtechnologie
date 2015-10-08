@@ -2,6 +2,7 @@ package resource;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -31,24 +32,45 @@ public class MovieResource {
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getMovies() {
+	public Response getMovies(@HeaderParam("Authorization") String token) {
 		Model model = (Model) context.getAttribute("model");
-		return Response.ok().entity(model.getMovies()).build();
+		if (model.isGebruikerByToken(token)) {
+			return Response.status(401).build();
+		} else {
+			return Response.ok().entity(model.getMovies()).build();
+		}
 		
 	}
 	
 	/**
 	 * Methode voor het ophalen van een film uit de database aan de hand van het IMDB-nummer
 	 * @param id Het IMDB-nummer van de gezochte film
-	 * @return Een 200-response met de gevonden film. Anders een 205-response
+	 * @return Een 200-response met de gevonden film. Anders een 404-response
 	 */
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Movie getMovie(@PathParam("id") int id){
+	public Response getMovie(@HeaderParam("Authorization") String token, @PathParam("id") int id){
 		Model model = (Model) context.getAttribute("model");
-		return model.getMovie(id);
+		if (model.isGebruikerByToken(token)) {
+			return Response.status(401).build();
+		} else {
+			Movie movie = model.getMovie(id);
+			if (movie == null) {
+				return Response.status(404).build();
+			} else {
+				return Response.ok().entity(movie).build();
+			}
+		}
+
 	}
 	
+	@GET
+	@Path ("rated")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response getRatedMovies() {
+		Model model = (Model) context.getAttribute("model");
+		return Response.ok().entity(model.getRatedMovies()).build();
+	}
 
 }

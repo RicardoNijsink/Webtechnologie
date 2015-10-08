@@ -77,14 +77,51 @@ public class Gebruiker {
 		return wachtwoord;
 	}
 	
-	public ArrayList<Rating> getRatings() {
-		return ratings;
+	public Rating[] getRatings() {
+		Rating[] ratinglist = new Rating[ratings.size()];
+		int i = 0;
+		for (Rating r : ratings){
+			ratinglist[i] = r;
+			i++;
+		}
+		return ratinglist;
+	}
+	
+	public Rating getRating(String imdbId) {
+		Rating rating = null;
+		System.out.println(imdbId);
+		for (Rating r : ratings) {
+			if (r.getMovieId().equals(imdbId)) {
+				rating = r;
+			}
+		}
+		return rating;
+	}
+	
+	public boolean isRated(String imdbId) {
+		System.out.println(imdbId);
+		for (Rating r : ratings) {
+			if (r.getMovieId().equals(imdbId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void setRatings(ArrayList<Rating> ratings) {
 		this.ratings = ratings;
 	}
+
+	public void addRating(Rating rating){
+		ratings.add(rating);	
+	}
 	
+	public void deleteRating(Rating rating){
+		ratings.remove(rating);
+	}
+	
+	@XmlTransient
+	@JsonIgnore
 	public String getToken(){
 		if (token==null){
 			genToken();
