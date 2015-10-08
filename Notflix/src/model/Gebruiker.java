@@ -112,8 +112,9 @@ public class Gebruiker {
 		this.ratings = ratings;
 	}
 
-	public void addRating(Rating rating){
-		ratings.add(rating);	
+	public Rating addRating(Rating rating){
+		ratings.add(rating);
+		return rating;	
 	}
 	
 	public void deleteRating(Rating rating){
@@ -132,7 +133,7 @@ public class Gebruiker {
 	/**
 	 * Methode voor het genereren van een logintoken van een gebruiker
 	 */
-	public void genToken(){
+	private void genToken(){
 		token = nickname;
 		
 		for (int i = 0; i < 15; i++) {
@@ -146,6 +147,7 @@ public class Gebruiker {
 			char charac = (char) random;
 			token = token + charac;
 		}
+		System.out.println(token);
 	}
 	
 }

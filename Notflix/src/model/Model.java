@@ -21,7 +21,7 @@ public class Model {
 	public Model() {
 		movies.add(new Movie(1235, "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
 		gebruikers.add(new Gebruiker("test", "test", "test", "test", "test"));
-		gebruikers.get(0).genToken();
+		gebruikers.get(0).getToken();
 		gebruikers.get(0).addRating(new Rating(5.0, "1235"));
 		movies.add(new Movie(123567, "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
 		
@@ -156,6 +156,15 @@ public class Model {
 			i++;
 		}
 		return ratedMovies;
+	}
+	
+	public boolean isFilm(String imdbId){
+		for (Movie m : movies){
+			if ((m.getImdb_nummer()+"").equals(imdbId)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private boolean hasRating(String imdbId){

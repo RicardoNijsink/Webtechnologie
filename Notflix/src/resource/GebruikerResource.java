@@ -70,33 +70,53 @@ public class GebruikerResource {
 	 * Als de gebruiker al bestaat een 409-response.
 	 */
 	@POST
-	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response postGebruiker(@HeaderParam("Authorization") String token, @Context HttpServletRequest request,
+	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response postGebruiker(@Context HttpServletRequest request,
 			@FormParam(value = "achternaam") String achternaam, @FormParam(value = "voornaam") String voornaam,
 			@FormParam(value = "nickname") String nickname, @FormParam(value = "tussenvoegsel") String tussenvoegsel,
 			@FormParam(value = "wachtwoord") String wachtwoord) {
 
 		Model model = (Model) context.getAttribute("model");
-		if (model.isGebruikerByToken(token)) {
-			return Response.status(401).build();
-		} else {
-			if (voornaam == null || achternaam == null || nickname == null || wachtwoord == null
-					|| voornaam.length() < 0 || achternaam.length() < 0 || nickname.length() < 0
-					|| wachtwoord.length() < 0) {
-				return Response.status(400).build();
-				// TODO error message
-			}
-
-			Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname,
-					wachtwoord);
-
-			if (toegevoegdeGebruiker == null) {
-				return Response.status(409).build();
-			}
-
-			return Response.status(201).entity(toegevoegdeGebruiker).build();
+		if (voornaam == null || achternaam == null || nickname == null || wachtwoord == null || voornaam.length() <= 0
+				|| achternaam.length() <= 0 || nickname.length() <= 0 || wachtwoord.length() <= 0) {
+			return Response.status(400).build();
+			// TODO error message
 		}
+
+		Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord);
+
+		if (toegevoegdeGebruiker == null) {
+			return Response.status(409).build();
+		}
+
+		return Response.status(201).entity(toegevoegdeGebruiker).build();
+	}
+	
+	@POST
+	@Path ("login")
+	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
+	@Produces({ MediaType.TEXT_PLAIN})
+	public Response postLogInGebruiker(@Context HttpServletRequest request,
+			@FormParam(value = "nickname") String nickname, 
+			@FormParam(value = "wachtwoord") String wachtwoord) {
+
+		Model model = (Model) context.getAttribute("model");
+		if (nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0) {
+			return Response.status(400).build();
+			// TODO error message
+		}
+
+		Gebruiker gebruiker = model.getGebruiker(nickname);
+		if (gebruiker==null){
+			return Response.status(404).build();
+		}
+		if (!gebruiker.getWachtwoord().equals(wachtwoord)){
+			return Response.status(422).build();
+		}
+		
+		
+		return Response.status(200).entity(gebruiker.getToken()).build();
 	}
 
 }

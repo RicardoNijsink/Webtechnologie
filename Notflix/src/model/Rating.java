@@ -21,7 +21,11 @@ public class Rating {
 	 * @param movie De film welke beoordeeld is
 	 */
 	public Rating(double rating, String movieId) {
-		this.rating = rating;
+		int tweeKeer = (int) (rating*2);
+		System.out.println(tweeKeer);
+		double returnRating = ((double)tweeKeer)/2;
+		System.out.println(returnRating);
+		this.rating = returnRating;
 		this.movieId = movieId;
 	}
 	
@@ -30,7 +34,11 @@ public class Rating {
 	}
 	
 	public void setRating(double rating) {
-		this.rating = rating;
+		int tweeKeer = (int) (rating*2);
+		System.out.println(tweeKeer);
+		double returnRating = ((double)tweeKeer)/2;
+		System.out.println(returnRating);
+		this.rating = returnRating;
 	}
 
 	public String getMovieId() {
