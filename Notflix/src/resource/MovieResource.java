@@ -30,16 +30,24 @@ public class MovieResource {
 	 * Methode voor het ophalen van alle films uit de database
 	 * @return Een 200-response met de lijst van alle films uit de database
 	 */
+	
+	/**
+	 * Methode voor het ophalen van alle films uit de database
+	 * @param token De access token
+	 * @return Een 200-response met de lijst van alle films uit de database.
+	 * Een 401-response als de access token ongeldig is.
+	 */
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getMovies(@HeaderParam("Authorization") String token) {
+		
 		Model model = (Model) context.getAttribute("model");
-		if (model.isGebruikerByToken(token)) {
+		if(model.isToken(token)){
 			return Response.status(401).build();
-		} else {
+		} 
+		else{
 			return Response.ok().entity(model.getMovies()).build();
 		}
-		
 	}
 	
 	/**
@@ -47,24 +55,39 @@ public class MovieResource {
 	 * @param id Het IMDB-nummer van de gezochte film
 	 * @return Een 200-response met de gevonden film. Anders een 404-response
 	 */
+	
+	/**
+	 * Methode voor het ophalen van een film uit de database aan de hand van het IMDB-nummer
+	 * @param token De access token
+	 * @param id Het IMDB-nummer van de gezochte film
+	 * @return Een 200-response met de gevonden film.
+	 * Een 401-response als de access token ongeldig is.
+	 * Een 404-response als de film niet bestaat.
+	 */
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getMovie(@HeaderParam("Authorization") String token, @PathParam("id") int id){
 		Model model = (Model) context.getAttribute("model");
-		if (model.isGebruikerByToken(token)) {
+		if(model.isToken(token)){
 			return Response.status(401).build();
-		} else {
+		} 
+		else{
 			Movie movie = model.getMovie(id);
-			if (movie == null) {
+			if(movie == null){
 				return Response.status(404).build();
-			} else {
+			} 
+			else{
 				return Response.ok().entity(movie).build();
 			}
 		}
 
 	}
 	
+	/**
+	 * Methode voor het ophalen van alle films met een rating
+	 * @return Een 200-response met een lijst van alle films met een rating
+	 */
 	@GET
 	@Path ("rated")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

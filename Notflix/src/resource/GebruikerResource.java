@@ -40,81 +40,101 @@ public class GebruikerResource {
 	
 	/**
 	 * Methode voor het ophalen van een gebruiker aan de hand van de nickname
+	 * @param token De access token
 	 * @param nickname De nickname van de te zoeken gebruiker
-	 * @return Een 200-response met de gevonden gebruiker. Anders een 404-response.
+	 * @return Een 200-response met de gevonden gebruiker. 
+	 * Een 401-response als de access token ongeldig is.
+	 * Een 404-response als de gebruiker niet bestaat.
 	 */
 	@GET
 	@Path("{nickname}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getGebruiker(@HeaderParam("Authorization") String token, 
 			@PathParam("nickname") String nickname) {
+		
 		Model model = (Model) context.getAttribute("model"); 
-		if (model.isGebruikerByToken(token)) {
+		
+		if(model.isToken(token)){
 			return Response.status(401).build();
-		} else {
+		} 
+		else{
 		Gebruiker gebruiker = model.getGebruiker(nickname);
 		
 		if(gebruiker != null){
 			return Response.ok().entity(model.getGebruiker(nickname)).build();
 		}
-			return Response.status(404).build();
+		
+		return Response.status(404).build();
 		}
 	}
 	
 	/**
 	 * Methode voor het toevoegen van een gebruiker aan de database
 	 * @param request De verstuurde request
-	 * @param input
-	 * @return Een 200-response met daarin een JSONObject met de aangemaakte gebruiker.
-	 * Als niet alle vereiste parameters aanwezig zijn een 400-response.
-	 * Als de gebruiker al bestaat een 409-response.
+	 * @param achternaam De achternaam van de toe te voegen gebruiker
+	 * @param voornaam De voornaam van de toe te voegen gebruiker
+	 * @param nickname De nickname van de toe te voegen gebruiker
+	 * @param tussenvoegsel Het tussenvoegsel van de toe te voegen gebruiker
+	 * @param wachtwoord Het wachtwoord van de toe te voegen gebruiker
+	 * @return Een 201-response als de gebruiker is toegevoegd.
+	 * Een 400-response als niet alle parameters correct ingevuld zijn.
+	 * Een 409-response als de gebruiker al bestaat.
 	 */
 	@POST
-	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response postGebruiker(@Context HttpServletRequest request,
 			@FormParam(value = "achternaam") String achternaam, @FormParam(value = "voornaam") String voornaam,
 			@FormParam(value = "nickname") String nickname, @FormParam(value = "tussenvoegsel") String tussenvoegsel,
 			@FormParam(value = "wachtwoord") String wachtwoord) {
 
 		Model model = (Model) context.getAttribute("model");
-		if (voornaam == null || achternaam == null || nickname == null || wachtwoord == null || voornaam.length() <= 0
-				|| achternaam.length() <= 0 || nickname.length() <= 0 || wachtwoord.length() <= 0) {
+		if(voornaam == null || achternaam == null || nickname == null || wachtwoord == null || voornaam.length() <= 0
+				|| achternaam.length() <= 0 || nickname.length() <= 0 || wachtwoord.length() <= 0){
 			return Response.status(400).build();
 			// TODO error message
 		}
 
 		Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord);
 
-		if (toegevoegdeGebruiker == null) {
+		if(toegevoegdeGebruiker == null){
 			return Response.status(409).build();
 		}
 
 		return Response.status(201).entity(toegevoegdeGebruiker).build();
 	}
 	
+	/**
+	 * Methode om in te loggen
+	 * @param request De verzonden request
+	 * @param nickname De nickname van de gebruiker
+	 * @param wachtwoord Het wachtwoord van de gebruiker
+	 * @return Een 200-response als de gebruiker is ingelogd.
+	 * Een 400-response als niet alle parameters correct zijn.
+	 * Een 404-response als de gebruiker niet bestaat.
+	 * Een 422-response als het wachtwoord niet correct is.
+	 */
 	@POST
 	@Path ("login")
-	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
-	@Produces({ MediaType.TEXT_PLAIN})
+	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+	@Produces({MediaType.TEXT_PLAIN})
 	public Response postLogInGebruiker(@Context HttpServletRequest request,
 			@FormParam(value = "nickname") String nickname, 
 			@FormParam(value = "wachtwoord") String wachtwoord) {
 
 		Model model = (Model) context.getAttribute("model");
-		if (nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0) {
+		if(nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0){
 			return Response.status(400).build();
 			// TODO error message
 		}
 
 		Gebruiker gebruiker = model.getGebruiker(nickname);
-		if (gebruiker==null){
+		if(gebruiker==null){
 			return Response.status(404).build();
 		}
-		if (!gebruiker.getWachtwoord().equals(wachtwoord)){
+		if(!gebruiker.getWachtwoord().equals(wachtwoord)){
 			return Response.status(422).build();
 		}
-		
 		
 		return Response.status(200).entity(gebruiker.getToken()).build();
 	}

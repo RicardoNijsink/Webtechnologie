@@ -18,6 +18,10 @@ public class Model {
 	private List<Gebruiker> gebruikers= new ArrayList<Gebruiker>();
 	private ArrayList<Rating> ratings= new ArrayList<Rating>();
 	
+	/**
+	 * Constructor van het model.
+	 * Hier worden hard-coded nieuwe films en gebruikers toegevoegd
+	 */
 	public Model() {
 		movies.add(new Movie(1235, "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
 		gebruikers.add(new Gebruiker("test", "test", "test", "test", "test"));
@@ -75,6 +79,12 @@ public class Model {
 		return null;
 	}
 	
+	/**
+	 * Haalt de gebruiker van de opgegeven access token op
+	 * @param token De access token van de gebruiker
+	 * @return De gebruiker als de access token geldig is.
+	 * Anders null.
+	 */
 	public Gebruiker getGebruikerByToken(String token) {
 		for(Gebruiker g : gebruikers){
 			if(g.getToken().equals(token)){
@@ -84,7 +94,12 @@ public class Model {
 		return null;
 	}
 	
-	public boolean isGebruikerByToken(String token) {
+	/**
+	 * Methode voor het controleren of een access token bestaat
+	 * @param token De te controleren access token
+	 * @return True, als de access token bestaat. Anders false.
+	 */
+	public boolean isToken(String token) {
 		for(Gebruiker g : gebruikers){
 			if(g.getToken().equals(token)){
 				return true;
@@ -141,6 +156,10 @@ public class Model {
 		return movie;
 	}
 	
+	/**
+	 * Methode voor het ophalen van de films die een rating hebben.
+	 * @return Een array met de films die een rating hebben
+	 */
 	public Movie[] getRatedMovies() {
 		ArrayList<Movie> ratedMovieslist = new ArrayList<>();
 		for (Movie m : movies){
@@ -158,7 +177,12 @@ public class Model {
 		return ratedMovies;
 	}
 	
-	public boolean isFilm(String imdbId){
+	/**
+	 * Methode om te controleren of een film bestaat
+	 * @param imdbId Het IMDB-nummer van de te controleren film
+	 * @return True, als de film bestaat. Anders false.
+	 */
+	public boolean isMovie(String imdbId){
 		for (Movie m : movies){
 			if ((m.getImdb_nummer()+"").equals(imdbId)){
 				return true;
@@ -167,6 +191,11 @@ public class Model {
 		return false;
 	}
 	
+	/**
+	 * Methode om te controleren of een film een rating heeft
+	 * @param imdbId Het IMDB-nummer van de te controleren film
+	 * @return True, als de film een rating heeft. Anders false.
+	 */
 	private boolean hasRating(String imdbId){
 		for (Gebruiker g: gebruikers){
 			if (g.isRated(imdbId)){

@@ -77,27 +77,45 @@ public class Gebruiker {
 		return wachtwoord;
 	}
 	
+	/**
+	 * Methode om de ratings van de gebruiker op te halen.
+	 * De arraylist met ratings wordt omgezet naar een array om zo weer te kunnen geven in JSON en XML
+	 * @return Een array met de ratings van de gebruiker
+	 */
 	public Rating[] getRatings() {
 		Rating[] ratinglist = new Rating[ratings.size()];
 		int i = 0;
-		for (Rating r : ratings){
+		
+		for(Rating r : ratings){
 			ratinglist[i] = r;
 			i++;
 		}
 		return ratinglist;
 	}
 	
+	/**
+	 * Methode om de rating bij een specifieke film op te halen
+	 * @param imdbId Het IMDB-nummer van de film
+	 * @return De rating van de gezochte film
+	 */
 	public Rating getRating(String imdbId) {
 		Rating rating = null;
+		
 		System.out.println(imdbId);
-		for (Rating r : ratings) {
-			if (r.getMovieId().equals(imdbId)) {
+		
+		for(Rating r : ratings){
+			if (r.getMovieId().equals(imdbId)){
 				rating = r;
 			}
 		}
 		return rating;
 	}
 	
+	/**
+	 * Methode om de controleren of een film een rating heeft
+	 * @param imdbId Het IMDB-nummer van de film
+	 * @return True, als de film een rating heeft. Anders false.
+	 */
 	public boolean isRated(String imdbId) {
 		System.out.println(imdbId);
 		for (Rating r : ratings) {
@@ -112,11 +130,20 @@ public class Gebruiker {
 		this.ratings = ratings;
 	}
 
+	/**
+	 * Methode voor het toevoegen van een rating aan de ratings van een gebruiker
+	 * @param rating De toe te voegen rating
+	 * @return De toegevoegde rating
+	 */
 	public Rating addRating(Rating rating){
 		ratings.add(rating);
 		return rating;	
 	}
 	
+	/**
+	 * Methode voor het verwijderen van een rating uit de ratings van een gebruiker
+	 * @param rating De te verwijderen rating
+	 */
 	public void deleteRating(Rating rating){
 		ratings.remove(rating);
 	}

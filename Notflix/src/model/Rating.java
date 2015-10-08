@@ -17,8 +17,8 @@ public class Rating {
 	
 	/**
 	 * Constructor van een rating
-	 * @param rating De gegeven rating
-	 * @param movie De film welke beoordeeld is
+	 * @param rating De ratingwaarde
+	 * @param movieId Het IMDB-nummer van de beoordeelde film
 	 */
 	public Rating(double rating, String movieId) {
 		int tweeKeer = (int) (rating*2);
@@ -33,6 +33,10 @@ public class Rating {
 		return rating;
 	}
 	
+	/**
+	 * Methode om de ratingwaarde te veranderen
+	 * @param rating De nieuwe ratingwaarde
+	 */
 	public void setRating(double rating) {
 		int tweeKeer = (int) (rating*2);
 		System.out.println(tweeKeer);
@@ -48,7 +52,4 @@ public class Rating {
 	public void setMovieId(String movieId) {
 		this.movieId = movieId;
 	}
-	
-	
-
 }
