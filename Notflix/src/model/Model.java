@@ -21,7 +21,7 @@ public class Model {
 	
 	public Model() {
 		movies.add(new Movie(1235, "kaas", Date.valueOf("2015-12-12"), 9.0, "ik", "heel mooi"));
-		gebruikers.add(new Gebruiker("test", "test", "test"));
+		gebruikers.add(new Gebruiker("test", "test", "test", "test", "test"));
 	}
 	
 	/**
@@ -66,8 +66,23 @@ public class Model {
 		return null;
 	}
 	
-	public void setGebruiker(String nickname){
+	/**
+	 * Methode voor het toevoegen van een gebruiker aan het model
+	 * @param voornaam De voornaam van de toe te voegen gebruiker
+	 * @param tussenvoegsel Het tussenvoegsel van het toe te voegen gebruiker
+	 * @param achternaam De achternaam van de toe te voegen gebruiker
+	 * @param nickname De nickname van de toe te voegen gebruiker
+	 * @param wachtwoord Het wachtwoord van de toe te voegen gebruiker
+	 * @return De nieuw aangemaakte gebruiker. Als de gebruiker al bestaat null.
+	 */
+	public Gebruiker addGebruiker(String voornaam, String tussenvoegsel, String achternaam, String nickname, String wachtwoord){
+		if(getGebruiker(nickname) != null){
+			return null;
+		}
 		
+		gebruikers.add(new Gebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord));
+		
+		return new Gebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord);
 	}
 	
 	/**

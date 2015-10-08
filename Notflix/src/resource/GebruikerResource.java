@@ -3,6 +3,7 @@ package resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,11 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import model.Gebruiker;
 import model.Model;
@@ -44,7 +40,7 @@ public class GebruikerResource {
 	/**
 	 * Methode voor het ophalen van een gebruiker aan de hand van de nickname
 	 * @param nickname De nickname van de te zoeken gebruiker
-	 * @return Een 200-response met de gevonden gebruiker. Anders een 205-response
+	 * @return Een 200-response met de gevonden gebruiker. Anders een 404-response.
 	 */
 	@GET
 	@Path("{nickname}")
@@ -57,27 +53,39 @@ public class GebruikerResource {
 		if(gebruiker != null){
 			return Response.ok().entity(model.getGebruiker(nickname)).build();
 		}
-		return Response.noContent().build();
+		return Response.status(404).build();
 	}
 	
 	/**
 	 * Methode voor het toevoegen van een gebruiker aan de database
 	 * @param request De verstuurde request
 	 * @param input
-	 * @return Een 200-response met daarin een JSONObject met de aangemaakte gebruiker. Anders foutcode TODO
+	 * @return Een 200-response met daarin een JSONObject met de aangemaakte gebruiker.
+	 * Als niet alle vereiste parameters aanwezig zijn een 400-response.
+	 * Als de gebruiker al bestaat een 409-response.
 	 */
 	@POST
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response postGebruiker(@Context HttpServletRequest request, byte[] input) {
-		Model model = (Model) context.getAttribute("model"); 
+	public Response postGebruiker(@Context HttpServletRequest request, @FormParam(value = "achternaam") String achternaam,
+			@FormParam(value = "voornaam") String voornaam, @FormParam(value = "nickname") String nickname,
+			@FormParam(value = "tussenvoegsel") String tussenvoegsel, @FormParam(value = "wachtwoord") String wachtwoord) {
 		
-		JSONObject json = new JSONObject();
-		json = new JSONObject(input);
+		Model model = (Model) context.getAttribute("model");
 		
-		System.out.println(json);
+		if(voornaam ==null || achternaam == null || nickname == null || wachtwoord == null ||
+			voornaam.length() < 0 || achternaam.length() < 0 || nickname.length() < 0 || wachtwoord.length() < 0){
+			return Response.status(400).build();
+			//TODO error message
+		}
 		
-		return Response.ok().entity(model.getGebruiker("test")).build();
+		Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord);
+		
+		if(toegevoegdeGebruiker == null){
+			return Response.status(409).build();
+		}
+		
+		return Response.status(201).entity(toegevoegdeGebruiker).build();
 	}
 
 }

@@ -14,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @XmlRootElement
 public class Gebruiker {
-	private String achternaam;
-	private String tussenvoegsel;
-	private String voornaam;
-	private String nickname;
-	private String wachtwoord;
-	private ArrayList<Rating> ratings;
+	private String achternaam = "";
+	private String tussenvoegsel = "";
+	private String voornaam = "";
+	private String nickname = "";
+	private String wachtwoord = "";
+	private ArrayList<Rating> ratings = new ArrayList<>();
 	private String token;
 	
 	public Gebruiker() {
@@ -31,10 +31,12 @@ public class Gebruiker {
 	 * @param achternaam De achternaam van de gebruiker
 	 * @param nickname De nickname van de gebruiker
 	 */
-	public Gebruiker(String voornaam, String achternaam, String nickname) {
+	public Gebruiker(String voornaam, String tussenvoegsel, String achternaam, String nickname, String wachtwoord) {
 		this.voornaam = voornaam;
+		this.tussenvoegsel = tussenvoegsel;
 		this.achternaam = achternaam;
 		this.nickname = nickname;
+		this.wachtwoord = wachtwoord;
 	}
 	
 	public String getAchternaam() {
