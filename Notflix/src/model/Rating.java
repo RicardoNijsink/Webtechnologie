@@ -22,9 +22,8 @@ public class Rating {
 	 */
 	public Rating(double rating, String movieId) {
 		int tweeKeer = (int) (rating*2);
-		System.out.println(tweeKeer);
 		double returnRating = ((double)tweeKeer)/2;
-		System.out.println(returnRating);
+		
 		this.rating = returnRating;
 		this.movieId = movieId;
 	}
