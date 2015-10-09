@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import model.ErrorCode;
 import model.Gebruiker;
 import model.Model;
 
@@ -58,7 +59,9 @@ public class GebruikerResource {
 		Model model = (Model) context.getAttribute("model"); 
 		
 		if(!model.isToken(token)){
-			return Response.status(401).build();
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getTOKEN_INVALID());
+			return Response.status(401).entity(errorcode).build();
 		} 
 		else{
 		Gebruiker gebruiker = model.getGebruiker(nickname);
@@ -66,8 +69,9 @@ public class GebruikerResource {
 		if(gebruiker != null){
 			return Response.ok().entity(model.getGebruiker(nickname)).build();
 		}
-		
-		return Response.status(404).build();
+		ErrorCode errorcode = new ErrorCode();
+		errorcode.setError(errorcode.getNO_SUCH_USER());
+		return Response.status(404).entity(errorcode).build();
 		}
 	}
 	
@@ -94,15 +98,18 @@ public class GebruikerResource {
 		Model model = (Model) context.getAttribute("model");
 		if(voornaam == null || achternaam == null || nickname == null || wachtwoord == null || voornaam.length() <= 0
 				|| achternaam.length() <= 0 || nickname.length() <= 0 || wachtwoord.length() <= 0){
-			
-			return Response.status(400).build();
-			// TODO error message
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getEMPTY_FIELDS());
+			return Response.status(400).entity(errorcode).build();
 		}
 
 		Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord);
 
 		if(toegevoegdeGebruiker == null){
-			return Response.status(409).build();
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getOBJECT_ALREADY_EXISTS());
+			return Response.status(409).entity(errorcode).build();
+			
 		}
 
 		return Response.status(201).entity(toegevoegdeGebruiker).build();
@@ -121,7 +128,7 @@ public class GebruikerResource {
 	@POST
 	@Path ("login")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	@Produces({MediaType.TEXT_PLAIN})
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response postLogInGebruiker(@Context HttpServletRequest request,
 			@FormParam(value = "nickname") String nickname, 
 			@FormParam(value = "wachtwoord") String wachtwoord) {
@@ -129,20 +136,25 @@ public class GebruikerResource {
 		Model model = (Model) context.getAttribute("model");
 		if(nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0){
 			System.out.println(request.getContentType());
-			
-			return Response.status(400).entity("test").build();
-			// TODO error message
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getEMPTY_FIELDS());
+			return Response.status(400).entity(errorcode).entity("test").build();
 		}
 
 		Gebruiker gebruiker = model.getGebruiker(nickname);
 		if(gebruiker==null){
-			return Response.status(404).build();
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getNICKNAME_WRONG());
+			return Response.status(404).entity(errorcode).build();
 		}
 		if(!gebruiker.getWachtwoord().equals(wachtwoord)){
-			return Response.status(422).build();
+			System.out.println("test");
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getPASSWORD_WRONG());
+			return Response.status(422).entity(errorcode).build();
 		}
 		
-		return Response.status(200).entity(gebruiker.getToken()).build();
+		return Response.status(200).entity(gebruiker.getTokenClass()).build();
 	}
 
 }

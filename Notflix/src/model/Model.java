@@ -58,15 +58,13 @@ public class Model {
 	@XmlElement(name = "gebruiker")
 	@XmlElementWrapper(name = "gebruikers")
 	public Gebruiker[] getGebruikers() {
-		Gebruiker[] gebruikersList= new Gebruiker[gebruikers.size()];
+		Gebruiker[] gebruikerslist = new Gebruiker[gebruikers.size()];
 		int i = 0;
-		
-		for(Gebruiker g : gebruikers){
-			gebruikersList[i] = g;
+		for (Gebruiker g : gebruikers){
+			gebruikerslist[i] = g;
 			i++;
 		}
-		
-		return gebruikersList;
+		return gebruikerslist;
 	}
 	
 	public void setGebruikers(List<Gebruiker> gebruikers) {

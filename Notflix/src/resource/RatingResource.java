@@ -15,7 +15,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import model.ErrorCode;
 import model.Gebruiker;
 import model.Model;
 import model.Rating;
@@ -43,7 +45,9 @@ public class RatingResource {
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
 		if(gebruiker==null){
-			return Response.status(401).build();
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getTOKEN_INVALID());
+			return Response.status(401).entity(errorcode).build();
 		}
 		else{
 			return Response.ok().entity(gebruiker.getRatings()).build();
@@ -106,21 +110,25 @@ public class RatingResource {
 			double doubleRating;
 			try{
 				doubleRating = Double.parseDouble(rating);
-				if (rating == null || imdbId == null || imdbId.length() <= 0 || doubleRating < 0 || doubleRating > 5){
-					return Response.status(400).build();
-					// TODO error message
+				if (rating == null || imdbId == null || imdbId.length() <= 0 || doubleRating < 0.5 || doubleRating > 5){
+					ErrorCode errorcode = new ErrorCode();
+					errorcode.setError(errorcode.getEMPTY_FIELDS());
+					return Response.status(400).entity(errorcode).build();
 				}
 				else if (gebruiker.isRated(imdbId)){
-					return Response.status(409).build();
-					// TODO error message
+					ErrorCode errorcode = new ErrorCode();
+					errorcode.setError(errorcode.getOBJECT_ALREADY_EXISTS());
+					return Response.status(409).entity(errorcode).build();
 				}
 				else if (!model.isMovie(imdbId)){
-					return Response.status(404).build();
-					// TODO error message
+					ErrorCode errorcode = new ErrorCode();
+					errorcode.setError(errorcode.getMOVIE_DOES_NOT_EXIST());
+					return Response.status(404).entity(errorcode).build();
 				}	
 			} catch(NumberFormatException e){
-				return Response.status(400).build();
-				// TODO error message
+				ErrorCode errorcode = new ErrorCode();
+				errorcode.setError(errorcode.getRATING_OUT_OF_RANGE());
+				return Response.status(400).entity(errorcode).build();
 			}
 			
 			Rating toegevoegdeRating = gebruiker.addRating(new Rating(doubleRating, imdbId));
@@ -150,14 +158,16 @@ public class RatingResource {
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
 		
-		//TODO parameter check
-		
 		if(gebruiker == null){
-			return Response.status(401).build();
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getTOKEN_INVALID());
+			return Response.status(401).entity(errorcode).build();
 		} 
 		else{
 			if(!model.isMovie(id)){
-				return Response.status(404).build();	
+				ErrorCode errorcode = new ErrorCode();
+				errorcode.setError(errorcode.getMOVIE_DOES_NOT_EXIST());
+				return Response.status(404).entity(errorcode).build();	
 			}
 			
 			double doubleRating;
@@ -165,20 +175,26 @@ public class RatingResource {
 				doubleRating = Double.parseDouble(rating);
 				
 				if(rating != null) {
-					if(doubleRating < 0 || doubleRating > 5){
-						return Response.status(409).build();
-						// TODO error message
+					if(doubleRating < 0.5 || doubleRating > 5){
+						ErrorCode errorcode = new ErrorCode();
+						errorcode.setError(errorcode.getRATING_OUT_OF_RANGE());
+						return Response.status(409).entity(errorcode).build();
 					}
 					
 					gebruiker.getRating(id).setRating(doubleRating);
 					return Response.status(201).entity(gebruiker.getRating(id)).build();
 				}
 				else{
-					return Response.status(404).build();
+					ErrorCode errorcode = new ErrorCode();
+					errorcode.setError(errorcode.getEMPTY_FIELDS());
+					return Response.status(404).entity(errorcode).build();
+					// TODO error message
 				}
 			} 
 			catch (NumberFormatException e) {
-				return Response.status(400).build();
+				ErrorCode errorcode = new ErrorCode();
+				errorcode.setError(errorcode.getRATING_OUT_OF_RANGE());
+				return Response.status(400).entity(errorcode).build();
 				// TODO error message
 			}
 		}
