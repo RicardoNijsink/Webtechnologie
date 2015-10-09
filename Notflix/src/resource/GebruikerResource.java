@@ -137,7 +137,7 @@ public class GebruikerResource {
 		if(nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0){
 			ErrorCode errorcode = new ErrorCode();
 			errorcode.setError(errorcode.getEMPTY_FIELDS());
-			return Response.status(400).entity(errorcode).entity("test").build();
+			return Response.status(400).entity(errorcode).build();
 		}
 
 		Gebruiker gebruiker = model.getGebruiker(nickname);

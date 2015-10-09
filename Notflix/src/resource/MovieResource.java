@@ -67,7 +67,7 @@ public class MovieResource {
 	@GET
 	@Path("{id}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getMovie(@HeaderParam("Authorization") String token, @PathParam("id") int id){
+	public Response getMovie(@HeaderParam("Authorization") String token, @PathParam("id") String id){
 		Model model = (Model) context.getAttribute("model");
 		if(!model.isToken(token)){
 			return Response.status(401).build();

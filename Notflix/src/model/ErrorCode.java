@@ -26,6 +26,7 @@ public class ErrorCode {
 	private String TOKEN_MISSING = "7: no token was recieved";
 	private String OBJECT_ALREADY_EXISTS = "8: the object you tried to add aleady exists";
 	private String NO_SUCH_USER = "9: no such user exists";
+	private String RATING_DOES_NOT_EXIST = "10: no such rating";
 	private String error = "test";
 	
 	public ErrorCode(){}
@@ -62,6 +63,11 @@ public class ErrorCode {
 	public String getOBJECT_ALREADY_EXISTS() {
 		return OBJECT_ALREADY_EXISTS;
 	}
+	@JsonIgnore
+	public String getRATING_DOES_NOT_EXIST() {
+		return RATING_DOES_NOT_EXIST;
+	}
+
 	@JsonIgnore
 	public String getNO_SUCH_USER() {
 		return NO_SUCH_USER;

@@ -59,7 +59,7 @@ public class RatingResource {
 	 * @param token De access token
 	 * @param id Het IMDB-nummer van de film van de te verwijderen rating
 	 * @return Een 200-response met de verwijderde rating.
-	 * Een 204-response als de rating niet bestaat.
+	 * Een 404-response als de rating niet bestaat.
 	 * Een 401-response als de access token ongeldig is.
 	 */
 	@DELETE
@@ -69,12 +69,17 @@ public class RatingResource {
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
 		if (gebruiker==null){
-			return Response.status(401).build();
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getTOKEN_INVALID());
+			return Response.status(401).entity(errorcode).build();
 		}else{
 			Rating rating = gebruiker.getRating(id);
-			System.out.println(rating);
+			System.out.println("kaas"+rating);
 			if (rating == null){
-				return Response.status(204).build();
+				ErrorCode errorcode = new ErrorCode();
+				errorcode.setError(errorcode.getMOVIE_DOES_NOT_EXIST());
+				System.out.println(errorcode.getError());
+				return Response.status(404).entity(errorcode).build();
 			}else{
 				gebruiker.deleteRating(rating);
 				return Response.ok().entity(rating).build();
@@ -104,8 +109,10 @@ public class RatingResource {
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
 		if(gebruiker==null){
-			return Response.status(401).build();
-		} 
+			ErrorCode errorcode = new ErrorCode();
+			errorcode.setError(errorcode.getTOKEN_INVALID());
+			return Response.status(401).entity(errorcode).build();
+		}
 		else{
 			double doubleRating;
 			try{

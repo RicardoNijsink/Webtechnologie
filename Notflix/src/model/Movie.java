@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Movie {
 	private static int lastvolgnummer;
 	private int volgnummer;
-	private int imdb_nummer;
+	private String imdb_nummer;
 	private String titel;
 	private String release_datum;
 	private double lengte;
@@ -33,7 +33,7 @@ public class Movie {
 	 * @param regisseur De regisseur van de film
 	 * @param beschrijving De beschrijving van de film
 	 */
-	public Movie(int imdb_nummer, String titel, String release_datum, double lengte, String regisseur, String beschrijving) {
+	public Movie(String imdb_nummer, String titel, String release_datum, double lengte, String regisseur, String beschrijving) {
 		super();
 		this.volgnummer = lastvolgnummer;
 		lastvolgnummer++;
@@ -51,7 +51,7 @@ public class Movie {
 		return volgnummer;
 	}
 	
-	public int getImdb_nummer() {
+	public String getImdb_nummer() {
 		return imdb_nummer;
 	}
 
@@ -79,7 +79,7 @@ public class Movie {
 		this.volgnummer = volgnummer;
 	}
 
-	public void setImdb_nummer(int imdb_nummer) {
+	public void setImdb_nummer(String imdb_nummer) {
 		this.imdb_nummer = imdb_nummer;
 	}
 

@@ -23,11 +23,25 @@ public class Model {
 	 * Hier worden hard-coded nieuwe films en gebruikers toegevoegd
 	 */
 	public Model() {
-		movies.add(new Movie(1235, "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt0231846", "kaas", "2015-12-12", 5.0, "ik", "heel mooi"));
 		gebruikers.add(new Gebruiker("test", "test", "test", "test", "test"));
-		gebruikers.get(0).getToken();
-		gebruikers.get(0).addRating(new Rating(5.0, "1235"));
-		movies.add(new Movie(123567, "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		gebruikers.get(0).addRating(new Rating(5.0, "tt0231846"));
+		
+		movies.add(new Movie("tt1592873", "kaas", "2015-12-12", 5.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt0137523", "kaas", "2015-12-12", 5.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt0961036", "kaas", "2015-12-12", 5.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt4225190", "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt0188377", "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt2783860", "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt1419918", "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt0108722", "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		movies.add(new Movie("tt1500703", "kaas", "2015-12-12", 9.0, "ik", "heel mooi"));
+		
+		gebruikers.add(new Gebruiker("test1", "test", "test", "test1", "test"));
+		gebruikers.add(new Gebruiker("test2", "test", "test", "test2", "test"));
+		gebruikers.add(new Gebruiker("test3", "test", "test", "test3", "test"));
+		gebruikers.add(new Gebruiker("test4", "test", "test", "test4", "test"));
+		gebruikers.add(new Gebruiker("test5", "test", "test", "test5", "test"));
 		
 	}
 	
@@ -150,11 +164,11 @@ public class Model {
 	 * @param id Het IMDB-nummer van de gezochte film
 	 * @return De gevonden film. Anders null
 	 */
-	public Movie getMovie(int id) {
+	public Movie getMovie(String id) {
 		Movie movie = null;
 		
 		for(Movie m : movies){
-			if(m.getImdb_nummer() == id){
+			if(m.getImdb_nummer().equals(id)){
 				movie = m;
 			}
 		}
