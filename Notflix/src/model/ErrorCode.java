@@ -9,6 +9,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
+
+/**
+ * this class is used to return error messages in xml or JSON
+ * @author auke
+ *
+ */
 @XmlRootElement
 public class ErrorCode {
 	private String NICKNAME_WRONG= "1: nickname wrong";

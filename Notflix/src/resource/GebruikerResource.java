@@ -90,7 +90,7 @@ public class GebruikerResource {
 	@POST
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response postGebruiker(@Context HttpServletRequest request,
+	public Response postGebruiker(
 			@FormParam(value = "achternaam") String achternaam, @FormParam(value = "voornaam") String voornaam,
 			@FormParam(value = "nickname") String nickname, @FormParam(value = "tussenvoegsel") String tussenvoegsel,
 			@FormParam(value = "wachtwoord") String wachtwoord) {
@@ -129,13 +129,12 @@ public class GebruikerResource {
 	@Path ("login")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response postLogInGebruiker(@Context HttpServletRequest request,
+	public Response postLogInGebruiker(
 			@FormParam(value = "nickname") String nickname, 
 			@FormParam(value = "wachtwoord") String wachtwoord) {
 
 		Model model = (Model) context.getAttribute("model");
 		if(nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0){
-			System.out.println(request.getContentType());
 			ErrorCode errorcode = new ErrorCode();
 			errorcode.setError(errorcode.getEMPTY_FIELDS());
 			return Response.status(400).entity(errorcode).entity("test").build();

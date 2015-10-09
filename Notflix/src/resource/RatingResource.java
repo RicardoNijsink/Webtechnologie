@@ -98,7 +98,7 @@ public class RatingResource {
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response postRating(@HeaderParam("Authorization") String token, 
-			@Context HttpServletRequest request, @FormParam(value = "rating") String rating, 
+			@FormParam(value = "rating") String rating, 
 			@FormParam(value = "imdbId") String imdbId) {
 
 		Model model = (Model) context.getAttribute("model");
@@ -146,14 +146,13 @@ public class RatingResource {
 	 * Een 400-response als de parameters niet correct ingevuld zijn.
 	 * Een 401-response als de access token ongeldig is.
 	 * Een 404-response als de film niet bestaat of als de rating niet bestaat.
-	 * Een 409-response als TODO
 	 */
 	@PUT
 	@Path ("{id}")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response putRating(@HeaderParam("Authorization") String token, @PathParam("id") String id,
-			@Context HttpServletRequest request, @FormParam(value = "rating") String rating) {
+			@FormParam(value = "rating") String rating) {
 
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
@@ -188,14 +187,12 @@ public class RatingResource {
 					ErrorCode errorcode = new ErrorCode();
 					errorcode.setError(errorcode.getEMPTY_FIELDS());
 					return Response.status(404).entity(errorcode).build();
-					// TODO error message
 				}
 			} 
 			catch (NumberFormatException e) {
 				ErrorCode errorcode = new ErrorCode();
 				errorcode.setError(errorcode.getRATING_OUT_OF_RANGE());
 				return Response.status(400).entity(errorcode).build();
-				// TODO error message
 			}
 		}
 	}
