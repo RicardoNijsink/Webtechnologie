@@ -14,6 +14,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import model.Gebruiker;
 import model.Model;
 
@@ -54,7 +57,7 @@ public class GebruikerResource {
 		
 		Model model = (Model) context.getAttribute("model"); 
 		
-		if(model.isToken(token)){
+		if(!model.isToken(token)){
 			return Response.status(401).build();
 		} 
 		else{
@@ -91,6 +94,7 @@ public class GebruikerResource {
 		Model model = (Model) context.getAttribute("model");
 		if(voornaam == null || achternaam == null || nickname == null || wachtwoord == null || voornaam.length() <= 0
 				|| achternaam.length() <= 0 || nickname.length() <= 0 || wachtwoord.length() <= 0){
+			
 			return Response.status(400).build();
 			// TODO error message
 		}
@@ -124,7 +128,9 @@ public class GebruikerResource {
 
 		Model model = (Model) context.getAttribute("model");
 		if(nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0){
-			return Response.status(400).build();
+			System.out.println(request.getContentType());
+			
+			return Response.status(400).entity("test").build();
 			// TODO error message
 		}
 

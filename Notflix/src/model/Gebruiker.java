@@ -1,7 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -12,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Ricardo
  *
  */
+@XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement
 public class Gebruiker {
 	private String achternaam = "";
@@ -19,7 +24,7 @@ public class Gebruiker {
 	private String voornaam = "";
 	private String nickname = "";
 	private String wachtwoord = "";
-	private ArrayList<Rating> ratings = new ArrayList<>();
+	private List<Rating> ratings = new ArrayList<>();
 	private String token;
 	
 	public Gebruiker() {
@@ -39,6 +44,7 @@ public class Gebruiker {
 		this.wachtwoord = wachtwoord;
 	}
 	
+	@XmlElement
 	public String getAchternaam() {
 		return achternaam;
 	}
@@ -47,6 +53,7 @@ public class Gebruiker {
 		this.achternaam = achternaam;
 	}
 	
+	@XmlElement
 	public String getTussenvoegsel() {
 		return tussenvoegsel;
 	}
@@ -55,6 +62,7 @@ public class Gebruiker {
 		this.tussenvoegsel = tussenvoegsel;
 	}
 	
+	@XmlElement
 	public String getVoornaam() {
 		return voornaam;
 	}
@@ -63,6 +71,7 @@ public class Gebruiker {
 		this.voornaam = voornaam;
 	}
 	
+	@XmlElement
 	public String getNickname() {
 		return nickname;
 	}
@@ -82,6 +91,7 @@ public class Gebruiker {
 	 * De arraylist met ratings wordt omgezet naar een array om zo weer te kunnen geven in JSON en XML
 	 * @return Een array met de ratings van de gebruiker
 	 */
+	@XmlElement
 	public Rating[] getRatings() {
 		Rating[] ratinglist = new Rating[ratings.size()];
 		int i = 0;
@@ -126,7 +136,7 @@ public class Gebruiker {
 		return false;
 	}
 	
-	public void setRatings(ArrayList<Rating> ratings) {
+	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
 	}
 
