@@ -1,7 +1,6 @@
 package resource;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -14,10 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import model.ErrorCode;
+import model.Error;
 import model.Gebruiker;
 import model.Model;
 
@@ -59,9 +55,8 @@ public class GebruikerResource {
 		Model model = (Model) context.getAttribute("model"); 
 		
 		if(!model.isToken(token)){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getTOKEN_INVALID());
-			return Response.status(401).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		} 
 		else{
 		Gebruiker gebruiker = model.getGebruiker(nickname);
@@ -69,15 +64,13 @@ public class GebruikerResource {
 		if(gebruiker != null){
 			return Response.ok().entity(model.getGebruiker(nickname)).build();
 		}
-		ErrorCode errorcode = new ErrorCode();
-		errorcode.setError(errorcode.getNO_SUCH_USER());
-		return Response.status(404).entity(errorcode).build();
+		Error errorcode = new Error();
+		return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
 		}
 	}
 	
 	/**
 	 * Methode voor het toevoegen van een gebruiker aan de database
-	 * @param request De verstuurde request
 	 * @param achternaam De achternaam van de toe te voegen gebruiker
 	 * @param voornaam De voornaam van de toe te voegen gebruiker
 	 * @param nickname De nickname van de toe te voegen gebruiker
@@ -98,17 +91,15 @@ public class GebruikerResource {
 		Model model = (Model) context.getAttribute("model");
 		if(voornaam == null || achternaam == null || nickname == null || wachtwoord == null || voornaam.length() <= 0
 				|| achternaam.length() <= 0 || nickname.length() <= 0 || wachtwoord.length() <= 0){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getEMPTY_FIELDS());
-			return Response.status(400).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(400).entity(errorcode.getErrorMessage(400)).build();
 		}
 
 		Gebruiker toegevoegdeGebruiker = model.addGebruiker(voornaam, tussenvoegsel, achternaam, nickname, wachtwoord);
 
 		if(toegevoegdeGebruiker == null){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getOBJECT_ALREADY_EXISTS());
-			return Response.status(409).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(409).entity(errorcode.getErrorMessage(409)).build();
 			
 		}
 
@@ -117,7 +108,6 @@ public class GebruikerResource {
 	
 	/**
 	 * Methode om in te loggen
-	 * @param request De verzonden request
 	 * @param nickname De nickname van de gebruiker
 	 * @param wachtwoord Het wachtwoord van de gebruiker
 	 * @return Een 200-response als de gebruiker is ingelogd.
@@ -128,29 +118,25 @@ public class GebruikerResource {
 	@POST
 	@Path ("login")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response postLogInGebruiker(
 			@FormParam(value = "nickname") String nickname, 
 			@FormParam(value = "wachtwoord") String wachtwoord) {
 
 		Model model = (Model) context.getAttribute("model");
 		if(nickname == null || wachtwoord == null || nickname.length() <= 0 || wachtwoord.length() <= 0){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getEMPTY_FIELDS());
-			return Response.status(400).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(400).entity(errorcode.getErrorMessage(400)).build();
 		}
 
 		Gebruiker gebruiker = model.getGebruiker(nickname);
 		if(gebruiker==null){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getNICKNAME_WRONG());
-			return Response.status(404).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(400).entity(errorcode.getErrorMessage(400)).build();
 		}
 		if(!gebruiker.getWachtwoord().equals(wachtwoord)){
-			System.out.println("test");
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getPASSWORD_WRONG());
-			return Response.status(422).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(422).entity(errorcode.getErrorMessage(422)).build();
 		}
 		
 		return Response.status(200).entity(gebruiker.getTokenClass()).build();

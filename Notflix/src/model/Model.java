@@ -1,8 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Model {
 	private ArrayList<Movie> movies= new ArrayList<Movie>();
-	private List<Gebruiker> gebruikers= new ArrayList<Gebruiker>();
+	private ArrayList<Gebruiker> gebruikers= new ArrayList<Gebruiker>();
 	private ArrayList<Rating> ratings= new ArrayList<Rating>();
 	
 	/**
@@ -46,7 +44,8 @@ public class Model {
 	}
 	
 	/**
-	 * Methode voor het ophalen van alle film uit de database
+	 * Methode voor het ophalen van alle film uit de database.
+	 * Zet de arraylist met films om naar een array.
 	 * @return De lijst met films
 	 */
 	@XmlElement(name = "movie")
@@ -54,7 +53,7 @@ public class Model {
 	public Movie[] getMovies() {
 		Movie[] movieslist = new Movie[movies.size()];
 		int i = 0;
-		for (Movie m : movies){
+		for(Movie m : movies){
 			movieslist[i] = m;
 			i++;
 		}
@@ -67,6 +66,7 @@ public class Model {
 
 	/**
 	 * Methode voor het ophalen van alle gebruikers uit de database
+	 * Zet de arraylist met gebruikers om naar een array
 	 * @return De lijst met gebruikers
 	 */
 	@XmlElement(name = "gebruiker")
@@ -81,14 +81,14 @@ public class Model {
 		return gebruikerslist;
 	}
 	
-	public void setGebruikers(List<Gebruiker> gebruikers) {
+	public void setGebruikers(ArrayList<Gebruiker> gebruikers) {
 		this.gebruikers = gebruikers;
 	}
 	
 	/**
 	 * Methode voor het ophalen van een gebruiker aan de hand van de nickname
 	 * @param nickname De nickname van de gezochte gebruiker
-	 * @return De gevonden gebruiker. Anders null
+	 * @return De gevonden gebruiker. Anders null.
 	 */
 	public Gebruiker getGebruiker(String nickname) {
 		for(Gebruiker g : gebruikers){
@@ -102,8 +102,7 @@ public class Model {
 	/**
 	 * Haalt de gebruiker van de opgegeven access token op
 	 * @param token De access token van de gebruiker
-	 * @return De gebruiker als de access token geldig is.
-	 * Anders null.
+	 * @return De gebruiker als de access token geldig is. Anders null.
 	 */
 	public Gebruiker getGebruikerByToken(String token) {
 		for(Gebruiker g : gebruikers){
@@ -178,19 +177,20 @@ public class Model {
 	
 	/**
 	 * Methode voor het ophalen van de films die een rating hebben.
+	 * Zet de arraylist met films om naar een array.
 	 * @return Een array met de films die een rating hebben
 	 */
 	public Movie[] getRatedMovies() {
 		ArrayList<Movie> ratedMovieslist = new ArrayList<>();
 		for (Movie m : movies){
-			if (hasRating(m.getImdb_nummer()+"")){
+			if(hasRating(m.getImdb_nummer()+"")){
 				ratedMovieslist.add(m);
 			}
 		}
 		
 		Movie[] ratedMovies = new Movie[ratedMovieslist.size()];
 		int i = 0;
-		for (Movie m : ratedMovieslist){
+		for(Movie m : ratedMovieslist){
 			ratedMovies[i] = m;
 			i++;
 		}
@@ -203,8 +203,8 @@ public class Model {
 	 * @return True, als de film bestaat. Anders false.
 	 */
 	public boolean isMovie(String imdbId){
-		for (Movie m : movies){
-			if ((m.getImdb_nummer()+"").equals(imdbId)){
+		for(Movie m : movies){
+			if((m.getImdb_nummer()+"").equals(imdbId)){
 				return true;
 			}
 		}
@@ -217,8 +217,8 @@ public class Model {
 	 * @return True, als de film een rating heeft. Anders false.
 	 */
 	private boolean hasRating(String imdbId){
-		for (Gebruiker g: gebruikers){
-			if (g.isRated(imdbId)){
+		for(Gebruiker g: gebruikers){
+			if(g.isRated(imdbId)){
 				return true;
 			}
 		}

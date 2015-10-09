@@ -101,10 +101,8 @@ public class Gebruiker {
 	public Rating getRating(String imdbId) {
 		Rating rating = null;
 		
-		System.out.println(imdbId);
-		
 		for(Rating r : ratings){
-			if (r.getMovieId().equals(imdbId)){
+			if(r.getMovieId().equals(imdbId)){
 				rating = r;
 			}
 		}
@@ -117,9 +115,8 @@ public class Gebruiker {
 	 * @return True, als de film een rating heeft. Anders false.
 	 */
 	public boolean isRated(String imdbId) {
-		System.out.println(imdbId);
-		for (Rating r : ratings) {
-			if (r.getMovieId().equals(imdbId)) {
+		for(Rating r : ratings){
+			if(r.getMovieId().equals(imdbId)){
 				return true;
 			}
 		}
@@ -144,30 +141,31 @@ public class Gebruiker {
 	 * Methode voor het verwijderen van een rating uit de ratings van een gebruiker
 	 * @param rating De te verwijderen rating
 	 */
-	public void deleteRating(Rating rating){
+	public void deleteRating(Rating rating) {
 		ratings.remove(rating);
 	}
 	
 	@XmlTransient
 	@JsonIgnore
-	public String getToken(){
-		if (token==null){
+	public String getToken() {
+		if(token==null){
 			genToken();
 		}
 		return token;
 	}
 	
 	/**
-	 * Methode voor het genereren van een logintoken van een gebruiker
+	 * Methode voor het genereren van een logintoken van een gebruiker.
+	 * De token is opgebouwd uit 15 verschillende letters.
 	 */
-	private void genToken(){
+	private void genToken() {
 		token = nickname;
 		
-		for (int i = 0; i < 15; i++) {
+		for(int i = 0; i < 15; i++){
 			int random = (int) (Math.random() * 50);
 			random = random + 65;
 			
-			if (random > 90) {
+			if(random > 90){
 				random = random + 6;
 			
 			}
@@ -177,10 +175,12 @@ public class Gebruiker {
 		System.out.println(token);
 	}
 	
+	/**
+	 * Class voor het maken van een tokenoject om zo weer te geven in JSON en XML
+	 * @return De token
+	 */
 	@JsonIgnore
-	public Token getTokenClass(){
-		
-		
+	public Token getTokenClass() {
 		
 		Token token = new Token();
 		token.setToken(getToken());

@@ -3,13 +3,13 @@ package model;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * this class is used to turn the token into xml and Json
- * @author auke
+ * Class voor het opslaan en ophalen van de access token
+ * @author Auke
  *
  */
 @XmlRootElement
 
-class Token{
+public class Token {
 	private String token;
 
 	public Token() {

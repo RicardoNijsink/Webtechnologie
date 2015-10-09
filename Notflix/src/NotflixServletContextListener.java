@@ -20,12 +20,9 @@ public class NotflixServletContextListener implements ServletContextListener{
 
 	@Override
 	public void contextInitialized(ServletContextEvent sc) {
-		System.out.println("test2");
 		ServletContext ctx = sc.getServletContext();
 		Model model = new Model();
 		ctx.setAttribute("model", model);
-		
-		System.out.println(model.getMovies()[0].getTitel());
 	}
 
 }

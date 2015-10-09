@@ -10,6 +10,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import model.Error;
 import model.Model;
 import model.Movie;
 
@@ -21,15 +22,6 @@ import model.Movie;
 @Path("movies")
 public class MovieResource {
 	@Context ServletContext context;
-	
-	public MovieResource() {
-		System.out.println(context);
-	}
-	
-	/**
-	 * Methode voor het ophalen van alle films uit de database
-	 * @return Een 200-response met de lijst van alle films uit de database
-	 */
 	
 	/**
 	 * Methode voor het ophalen van alle films uit de database
@@ -43,7 +35,8 @@ public class MovieResource {
 		
 		Model model = (Model) context.getAttribute("model");
 		if(!model.isToken(token)){
-			return Response.status(401).build();
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		} 
 		else{
 			return Response.ok().entity(model.getMovies()).build();
@@ -52,28 +45,22 @@ public class MovieResource {
 	
 	/**
 	 * Methode voor het ophalen van een film uit de database aan de hand van het IMDB-nummer
-	 * @param id Het IMDB-nummer van de gezochte film
-	 * @return Een 200-response met de gevonden film. Anders een 404-response
-	 */
-	
-	/**
-	 * Methode voor het ophalen van een film uit de database aan de hand van het IMDB-nummer
 	 * @param token De access token
-	 * @param id Het IMDB-nummer van de gezochte film
+	 * @param imdbId Het IMDB-nummer van de gezochte film
 	 * @return Een 200-response met de gevonden film.
 	 * Een 401-response als de access token ongeldig is.
 	 * Een 404-response als de film niet bestaat.
 	 */
 	@GET
-	@Path("{id}")
+	@Path("{imdbId}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getMovie(@HeaderParam("Authorization") String token, @PathParam("id") String id){
+	public Response getMovie(@HeaderParam("Authorization") String token, @PathParam("imdbId") String imdbId){
 		Model model = (Model) context.getAttribute("model");
 		if(!model.isToken(token)){
 			return Response.status(401).build();
 		} 
 		else{
-			Movie movie = model.getMovie(id);
+			Movie movie = model.getMovie(imdbId);
 			if(movie == null){
 				return Response.status(404).build();
 			} 

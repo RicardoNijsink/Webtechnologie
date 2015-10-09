@@ -1,7 +1,6 @@
 package resource;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -15,14 +14,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import model.ErrorCode;
+import model.Error;
 import model.Gebruiker;
 import model.Model;
 import model.Rating;
 
-//TODO IMDB-nummer overal hetzelfde
 
 /**
  * Class voor het ophalen van ratingsgegevens uit de database
@@ -45,9 +41,8 @@ public class RatingResource {
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
 		if(gebruiker==null){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getTOKEN_INVALID());
-			return Response.status(401).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		}
 		else{
 			return Response.ok().entity(gebruiker.getRatings()).build();
@@ -57,30 +52,29 @@ public class RatingResource {
 	/**
 	 * Methode voor het verwijderen van een rating
 	 * @param token De access token
-	 * @param id Het IMDB-nummer van de film van de te verwijderen rating
+	 * @param imdbId Het IMDB-nummer van de film van de te verwijderen rating
 	 * @return Een 200-response met de verwijderde rating.
 	 * Een 404-response als de rating niet bestaat.
 	 * Een 401-response als de access token ongeldig is.
 	 */
 	@DELETE
-	@Path ("{id}")
+	@Path ("{imdbId}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response deleteRating(@HeaderParam("Authorization") String token, @PathParam("id") String id) {
+	public Response deleteRating(@HeaderParam("Authorization") String token, @PathParam("imdbId") String imdbId) {
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
-		if (gebruiker==null){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getTOKEN_INVALID());
-			return Response.status(401).entity(errorcode).build();
-		}else{
-			Rating rating = gebruiker.getRating(id);
+		if(gebruiker==null){
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
+		}
+		else{
+			Rating rating = gebruiker.getRating(imdbId);
 			System.out.println("kaas"+rating);
-			if (rating == null){
-				ErrorCode errorcode = new ErrorCode();
-				errorcode.setError(errorcode.getMOVIE_DOES_NOT_EXIST());
-				System.out.println(errorcode.getError());
-				return Response.status(404).entity(errorcode).build();
-			}else{
+			if(rating == null){
+				Error errorcode = new Error();
+				return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
+			}
+			else{
 				gebruiker.deleteRating(rating);
 				return Response.ok().entity(rating).build();
 			}
@@ -109,33 +103,29 @@ public class RatingResource {
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
 		if(gebruiker==null){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getTOKEN_INVALID());
-			return Response.status(401).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		}
 		else{
 			double doubleRating;
 			try{
 				doubleRating = Double.parseDouble(rating);
 				if (rating == null || imdbId == null || imdbId.length() <= 0 || doubleRating < 0.5 || doubleRating > 5){
-					ErrorCode errorcode = new ErrorCode();
-					errorcode.setError(errorcode.getEMPTY_FIELDS());
-					return Response.status(400).entity(errorcode).build();
+					Error errorcode = new Error();
+					return Response.status(400).entity(errorcode.getErrorMessage(400)).build();
 				}
-				else if (gebruiker.isRated(imdbId)){
-					ErrorCode errorcode = new ErrorCode();
-					errorcode.setError(errorcode.getOBJECT_ALREADY_EXISTS());
-					return Response.status(409).entity(errorcode).build();
+				else if(gebruiker.isRated(imdbId)){
+					Error errorcode = new Error();
+					return Response.status(409).entity(errorcode.getErrorMessage(409)).build();
 				}
-				else if (!model.isMovie(imdbId)){
-					ErrorCode errorcode = new ErrorCode();
-					errorcode.setError(errorcode.getMOVIE_DOES_NOT_EXIST());
-					return Response.status(404).entity(errorcode).build();
+				else if(!model.isMovie(imdbId)){
+					Error errorcode = new Error();
+					return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
 				}	
-			} catch(NumberFormatException e){
-				ErrorCode errorcode = new ErrorCode();
-				errorcode.setError(errorcode.getRATING_OUT_OF_RANGE());
-				return Response.status(400).entity(errorcode).build();
+			} 
+			catch(NumberFormatException e){
+				Error errorcode = new Error();
+				return Response.status(400).entity(errorcode.getErrorMessage(400)).build();
 			}
 			
 			Rating toegevoegdeRating = gebruiker.addRating(new Rating(doubleRating, imdbId));
@@ -146,8 +136,7 @@ public class RatingResource {
 	/**
 	 * Methode om een rating van een film bij te werken.
 	 * @param token De access token
-	 * @param id Het IMDB-nummer van de film
-	 * @param request De verzonden request
+	 * @param imdbId Het IMDB-nummer van de film
 	 * @param rating De ratingwaarde
 	 * @return Een 201-response als de rating bijgewerkt is.
 	 * Een 400-response als de parameters niet correct ingevuld zijn.
@@ -155,25 +144,23 @@ public class RatingResource {
 	 * Een 404-response als de film niet bestaat of als de rating niet bestaat.
 	 */
 	@PUT
-	@Path ("{id}")
+	@Path ("{imdbId}")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response putRating(@HeaderParam("Authorization") String token, @PathParam("id") String id,
+	public Response putRating(@HeaderParam("Authorization") String token, @PathParam("imdbId") String imdbId,
 			@FormParam(value = "rating") String rating) {
 
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
 		
 		if(gebruiker == null){
-			ErrorCode errorcode = new ErrorCode();
-			errorcode.setError(errorcode.getTOKEN_INVALID());
-			return Response.status(401).entity(errorcode).build();
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		} 
 		else{
-			if(!model.isMovie(id)){
-				ErrorCode errorcode = new ErrorCode();
-				errorcode.setError(errorcode.getMOVIE_DOES_NOT_EXIST());
-				return Response.status(404).entity(errorcode).build();	
+			if(!model.isMovie(imdbId)){
+				Error errorcode = new Error();
+				return Response.status(404).entity(errorcode.getErrorMessage(404)).build();	
 			}
 			
 			double doubleRating;
@@ -182,24 +169,21 @@ public class RatingResource {
 				
 				if(rating != null) {
 					if(doubleRating < 0.5 || doubleRating > 5){
-						ErrorCode errorcode = new ErrorCode();
-						errorcode.setError(errorcode.getRATING_OUT_OF_RANGE());
-						return Response.status(409).entity(errorcode).build();
+						Error errorcode = new Error();
+						return Response.status(400).entity(errorcode.getErrorMessage(400)).build();
 					}
 					
-					gebruiker.getRating(id).setRating(doubleRating);
-					return Response.status(201).entity(gebruiker.getRating(id)).build();
+					gebruiker.getRating(imdbId).setRating(doubleRating);
+					return Response.status(201).entity(gebruiker.getRating(imdbId)).build();
 				}
 				else{
-					ErrorCode errorcode = new ErrorCode();
-					errorcode.setError(errorcode.getEMPTY_FIELDS());
-					return Response.status(404).entity(errorcode).build();
+					Error errorcode = new Error();
+					return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
 				}
 			} 
 			catch (NumberFormatException e) {
-				ErrorCode errorcode = new ErrorCode();
-				errorcode.setError(errorcode.getRATING_OUT_OF_RANGE());
-				return Response.status(400).entity(errorcode).build();
+				Error errorcode = new Error();
+				return Response.status(400).entity(errorcode.getErrorMessage(400)).build();
 			}
 		}
 	}
