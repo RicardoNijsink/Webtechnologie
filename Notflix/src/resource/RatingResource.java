@@ -69,7 +69,6 @@ public class RatingResource {
 		}
 		else{
 			Rating rating = gebruiker.getRating(imdbId);
-			System.out.println("kaas"+rating);
 			if(rating == null){
 				Error errorcode = new Error();
 				return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
@@ -102,7 +101,7 @@ public class RatingResource {
 
 		Model model = (Model) context.getAttribute("model");
 		Gebruiker gebruiker = model.getGebruikerByToken(token);
-		if(gebruiker==null){
+		if(gebruiker == null){
 			Error errorcode = new Error();
 			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		}

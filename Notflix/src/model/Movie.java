@@ -20,6 +20,7 @@ public class Movie {
 	private double lengte;
 	private String regisseur;
 	private String beschrijving;
+	private double gemiddeldeRating;
 	
 	public Movie() {
 	}
@@ -74,6 +75,10 @@ public class Movie {
 	public String getBeschrijving() {
 		return beschrijving;
 	}
+	
+	public double getGemiddeldeRating() {
+		return gemiddeldeRating;
+	}
 
 	public void setVolgnummer(int volgnummer) {
 		this.volgnummer = volgnummer;
@@ -101,6 +106,10 @@ public class Movie {
 
 	public void setBeschrijving(String beschrijving) {
 		this.beschrijving = beschrijving;
+	}
+	
+	public void setGemiddeldeRating(double gemiddeldeRating) {
+		this.gemiddeldeRating = gemiddeldeRating;
 	}
 
 }

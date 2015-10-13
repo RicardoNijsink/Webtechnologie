@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class Model {
-	private ArrayList<Movie> movies= new ArrayList<Movie>();
-	private ArrayList<Gebruiker> gebruikers= new ArrayList<Gebruiker>();
-	private ArrayList<Rating> ratings= new ArrayList<Rating>();
+	private ArrayList<Movie> movies = new ArrayList<Movie>();
+	private ArrayList<Gebruiker> gebruikers = new ArrayList<Gebruiker>();
+	private ArrayList<Rating> ratings = new ArrayList<Rating>();
 	
 	/**
 	 * Constructor van het model.
@@ -40,7 +40,6 @@ public class Model {
 		gebruikers.add(new Gebruiker("test3", "test", "test", "test3", "test"));
 		gebruikers.add(new Gebruiker("test4", "test", "test", "test4", "test"));
 		gebruikers.add(new Gebruiker("test5", "test", "test", "test5", "test"));
-		
 	}
 	
 	/**
@@ -100,7 +99,7 @@ public class Model {
 	}
 	
 	/**
-	 * Haalt de gebruiker van de opgegeven access token op
+	 * Methode voor het ophalen van de gebruiker bij de opgegeven access token
 	 * @param token De access token van de gebruiker
 	 * @return De gebruiker als de access token geldig is. Anders null.
 	 */
@@ -183,7 +182,8 @@ public class Model {
 	public Movie[] getRatedMovies() {
 		ArrayList<Movie> ratedMovieslist = new ArrayList<>();
 		for (Movie m : movies){
-			if(hasRating(m.getImdb_nummer()+"")){
+			if(hasRating(m.getImdb_nummer())){
+				m.setGemiddeldeRating(getRating(m.getImdb_nummer()));
 				ratedMovieslist.add(m);
 			}
 		}
@@ -198,13 +198,34 @@ public class Model {
 	}
 	
 	/**
+	 * Methode om de gemiddelde rating van een film te bepalen
+	 * @param imdbId Het IMDB-nummer van de film
+	 * @return De gemiddelde rating van de film
+	 */
+	public double getRating(String imdbId) {
+		double totalRating = 0;
+		int ratingCount = 0;
+		
+		for(Gebruiker g : gebruikers){
+			for(Rating r : g.getRatings()){
+				if(r.getMovieId().equals(imdbId)){
+					totalRating += r.getRating();
+					ratingCount++;
+				}
+			}
+		}
+		
+		return (double)(totalRating / ratingCount);
+	}
+	
+	/**
 	 * Methode om te controleren of een film bestaat
 	 * @param imdbId Het IMDB-nummer van de te controleren film
 	 * @return True, als de film bestaat. Anders false.
 	 */
 	public boolean isMovie(String imdbId){
 		for(Movie m : movies){
-			if((m.getImdb_nummer()+"").equals(imdbId)){
+			if((m.getImdb_nummer()).equals(imdbId)){
 				return true;
 			}
 		}

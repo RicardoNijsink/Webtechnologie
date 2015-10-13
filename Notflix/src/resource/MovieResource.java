@@ -56,6 +56,7 @@ public class MovieResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getMovie(@HeaderParam("Authorization") String token, @PathParam("imdbId") String imdbId){
 		Model model = (Model) context.getAttribute("model");
+		
 		if(!model.isToken(token)){
 			return Response.status(401).build();
 		} 
@@ -76,7 +77,7 @@ public class MovieResource {
 	 * @return Een 200-response met een lijst van alle films met een rating
 	 */
 	@GET
-	@Path ("rated")
+	@Path("rated")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response getRatedMovies() {
 		Model model = (Model) context.getAttribute("model");
