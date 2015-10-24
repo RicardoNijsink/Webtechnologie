@@ -10,19 +10,21 @@ $(document).ready(function(){
 		console.dir(jqXHR)
 		$("tbody").append("<tr>"+
             "<p></p>"+
-          "</tr>"
-    )
-	}).done(function(data)  { 
+          "</tr>");
+        $("#loginForm").show();
+        $("#loggedInDropdown").hide();  
+	}).done(function(data){ 
 		console.dir(data)
 		$(data).each(function(i,val){
-
-				$("tbody").append("<tr>"+
-            "<td>"+val.voornaam+"</td>"+
-            "<td>"+val.achternaam+"</td>"+
-            "<td>"+val.nickname+"</td>"+
-            "<td>"+val.voornaam+"</td>"+
-          "</tr>"
-		)
+			$("tbody").append("<tr>"+
+			"<td>"+val.voornaam+"</td>"+
+			"<td>"+val.achternaam+"</td>"+
+			"<td>"+val.nickname+"</td>"+
+			"<td>"+val.voornaam+"</td>"+
+			"</tr>");
+			
+			$("#loginForm").hide();
+			$("#loggedInDropdown").show();
 		});
 	});
 

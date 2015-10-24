@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Notflix</title>
+    
+    <link rel="icon" type="image/png" href="../resources/notflix.png" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -15,7 +17,6 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../index.js"></script>
 
     <link rel="stylesheet" href="../style.css">
 
@@ -28,56 +29,58 @@
   </head>
   <body>
     <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Brand</a>
-        </div>
+		  <div class="container-fluid">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand" href="#">
+				<img alt="Brand" src="../resources/notflixbrand.png">
+		      </a>
+		    </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html">Home<span class="sr-only">(current)</span></a></li>
-            <li><a href="gebruikers.html">Gebruikers</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Films <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="films.html">Zoek films</a></li>
-                <li><a href="films.html">Bekijk alle films</a></li>
-              </ul>
-            </li>
-          </ul>
-          
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Nickname">
-              <input type="password" class="form-control" placeholder="Wachtwoord">
-            </div>
-            <button type="submit" class="buttonNotflix" id="buttonLogin">Login</button>
-          </form>
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li><a href="index.html">Home<span class="sr-only">(current)</span></a></li>
+		        <li><a href="gebruikers.html">Gebruikers</a></li>
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Films <span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="films.html">Zoek films</a></li>
+		            <li><a href="films.html">Bekijk alle films</a></li>
+		          </ul>
+		        </li>
+		      </ul>
+		      
+		      <form class="navbar-form navbar-right" id="loginForm" action="../api/gebruikers/login" method = "post">
+		        <div class="form-group">
+		          <input type="text" name="nickname" class="form-control" placeholder="Nickname">
+		          <input type="password" name="wachtwoord" class="form-control" placeholder="Wachtwoord">
+		        </div>
+		        <button type="submit" id="buttonLogin" class="buttonNotflix">Login</button>
+		      </form>
 
-          <ul class="nav navbar-nav navbar-right" hidden>
+			<ul class="nav navbar-nav navbar-right" hidden id="usernav">
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="glyphicon glyphicon-user"></span>
-                <strong id="loggedInUserNickname">...</strong>
-                <span class="glyphicon glyphicon-chevron-down"></span>
+              	<span class="glyphicon glyphicon-user"></span>
+            	  <strong id="loggedInUserNickname">...</strong>
+          	    <span class="glyphicon glyphicon-chevron-down"></span>
               </a>
               <ul class="dropdown-menu">
                 <li>
                   <div class="navbar-login">
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <p class="text-center">
-                          <span class="glyphicon glyphicon-user icon-size"></span>
-                        </p>
-                      </div>
+                  	<div class="row">
+              	  		<div class="col-lg-4">
+                  			<p class="text-center">
+                    			<span class="glyphicon glyphicon-user icon-size"></span>
+                				</p>
+                  		</div>
                       <div class="col-lg-8">
                         <p class="text-left"><strong id="loggedInUserFullName">...</strong></p>
                         <p class="text-left small" id="loggedInUserEmail">...</p>
@@ -87,86 +90,57 @@
                        </div>
                     </div>
                   </div>
-                </li>
-                <li class="divider"></li>
-                  <li>
-                    <div class="navbar-login navbar-login-session">
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <p>
-                            <a href="#" class="btn btn-danger btn-block">Log uit</a>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+              	</li>
+              	<li class="divider"></li>
+                	<li>
+                  	<div class="navbar-login navbar-login-session">
+                    	<div class="row">
+                      	<div class="col-lg-12">
+                        	<p>
+              	          		<a href="#" class="btn btn-danger btn-block" id="logout">Log uit</a>
+                	      	</p>
+                      	</div>
+                  		</div>
+                  	</div>
+                	</li>
               </ul>
             </li>
           </ul>
+		    </div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
 
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-
-    <h1>Registreerformulier</h1>
-
-    <form id="loginForm">
-      <div class="form-group has-succes has-feedback">
-        <label for="exampleInputNickname1">Voornaam</label>
-        <input type="text" class="form-control" id="exampleInputVoornaam1" placeholder="Voornaam" name="voornaam">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputNickname1">Tussenvoegsel</label>
-        <input type="text" class="form-control" id="exampleInputTussenvoegsel1" placeholder="Tussenvoegsel">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputNickname1">Achternaam</label>
-        <input type="text" class="form-control" id="exampleInputAchternaam1" placeholder="Achternaam">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputNickname1">Nickname</label>
-        <input type="text" class="form-control" id="exampleInputNickname1" placeholder="Nickname">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Wachtwoord</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Wachtwoord"
-        name="wachtwoord">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword2">Herhaal wachtwoord</label>
-        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Herhaal wachtwoord">
-      </div>
-      <button type="submit" class="buttonNotflix">Registreer</button>
-    </form>
-
-    <script>
-      $(document).ready(function () {
-
-        $('#loginForm').validate({
-              rules: {
-                  voornaam: {
-                      minlength: 2,
-                      required: true
-                  },
-                  wachtwoord: {
-                      required: true,
-                      email: true
-                  },
-                  message: {
-                      minlength: 2,
-                      required: true
-                  }
-              },
-              highlight: function (element) {
-                  $(element).closest('.control-group').removeClass('success').addClass('error');
-              },
-              success: function (element) {
-                  element.text('OK!').addClass('valid')
-                      .closest('.control-group').removeClass('error').addClass('success');
-              }
-          });
-        });
-      </script>
-
+	<div id="registreerBody">
+	    <h1>Registreerformulier</h1>
+	
+	    <form id="loginForm">
+	      <div class="form-group has-succes has-feedback">
+	        <label for="inputVoornaam">Voornaam</label>
+	        <input type="text" class="form-control" id="inputVoornaam" placeholder="Voornaam" name="voornaam">
+	      </div>
+	      <div class="form-group">
+	        <label for="inputTussenvoegsel">Tussenvoegsel</label>
+	        <input type="text" class="form-control" id="inputTussenvoegsel" placeholder="Tussenvoegsel">
+	      </div>
+	      <div class="form-group">
+	        <label for="inputAchternaam">Achternaam</label>
+	        <input type="text" class="form-control" id="inputAchternaam" placeholder="Achternaam">
+	      </div>
+	      <div class="form-group">
+	        <label for="inputNickname">Nickname</label>
+	        <input type="text" class="form-control" id="inputNickname" placeholder="Nickname">
+	      </div>
+	      <div class="form-group">
+	        <label for="inputPassword1">Wachtwoord</label>
+	        <input type="password" class="form-control" id="inputPassword1" placeholder="Wachtwoord"
+	        name="wachtwoord">
+	      </div>
+	      <div class="form-group">
+	        <label for="inputPassword2">Herhaal wachtwoord</label>
+	        <input type="password" class="form-control" id="inputPassword2" placeholder="Herhaal wachtwoord">
+	      </div>
+	      <button type="submit" class="buttonNotflix">Registreer</button>
+	    </form>
+    </div>
   </body>
 </html>

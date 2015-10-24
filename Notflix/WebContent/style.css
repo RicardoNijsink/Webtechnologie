@@ -6,6 +6,14 @@
 	max-height: 500px;
 }
 
+.navbar-brand{
+	padding: 3px;
+}
+
+.navbar-form{
+	margin-top: 5px;
+}
+
 a{
   font-family: TextFont;
   font-size: 30px;
@@ -28,7 +36,15 @@ tr{
 label{
   font-family: TextFont;
   font-size: 30px;
-  color: #fff;
+  color: red;
+}
+
+.form-control{
+	width: 50vw;
+}
+
+#registreerBody{
+	margin-left: 20px;
 }
 
 .dropdown-menu{
@@ -56,11 +72,6 @@ label{
 
 .icon-size{
   font-size: 87px;
-}
-
-label{
-  color:black;
-  font-size: 20px;
 }
 
 #buttonLogin{
@@ -133,7 +144,7 @@ h2, h3{
 
 .buttonNotflix {
   outline: none;
-  margin-top: 40px;
+  margin-top: 4px;
   border: 2px solid #b34141;
   background: #ad4040;
   background: -webkit-gradient(linear, left top, left bottom, from(#e82323), to(#ad4040));
@@ -142,7 +153,7 @@ h2, h3{
   background: -ms-linear-gradient(top, #e82323, #ad4040);
   background: -o-linear-gradient(top, #e82323, #ad4040);
   background-image: -ms-linear-gradient(top, #e82323 0%, #ad4040 100%);
-  padding: 14.5px 29px;
+  padding: 10px 29px;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
@@ -155,32 +166,6 @@ h2, h3{
   font-family: TextFont;
   text-decoration: none;
   vertical-align: middle;
-}
-
-.buttonNotflix:hover {
-   border: 2px solid #b34141;
-   text-shadow: #1e4158 0 1px 0;
-   background: #ad4040;
-   background: -webkit-gradient(linear, left top, left bottom, from(#e82323), to(#ad4040));
-   background: -webkit-linear-gradient(top, #e82323, #ad4040);
-   background: -moz-linear-gradient(top, #e82323, #ad4040);
-   background: -ms-linear-gradient(top, #e82323, #ad4040);
-   background: -o-linear-gradient(top, #e82323, #ad4040);
-   background-image: -ms-linear-gradient(top, #e82323 0%, #ad4040 100%);
-   color: #fff;
-}
-
-.buttonNotflix:active {
-   text-shadow: #1e4158 0 1px 0;
-   border: 2px solid #b34141;
-   background: #e82323;
-   background: -webkit-gradient(linear, left top, left bottom, from(#e82323), to(#ad4040));
-   background: -webkit-linear-gradient(top, #e82323, #e82323);
-   background: -moz-linear-gradient(top, #e82323, #e82323);
-   background: -ms-linear-gradient(top, #e82323, #e82323);
-   background: -o-linear-gradient(top, #e82323, #e82323);
-   background-image: -ms-linear-gradient(top, #e82323 0%, #e82323 100%);
-   color: #fff;
 }
 
 form .has-error .control-label,
