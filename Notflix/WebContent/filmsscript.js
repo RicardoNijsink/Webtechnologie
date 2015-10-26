@@ -27,7 +27,7 @@ $(document).ready(function(){
 			$(".filmsRow").append(
 	          '<div class="col-sm-6 col-md-4">'+
 			    '<div class="thumbnail">'+
-			      '<img src="http://miftyisbored.com/wp-content/uploads/2011/03/captain-america-movie-poster.jpg" alt="filmFoto" class="filmFoto">'+
+			      '<img id = "'+i+'posterimage"src="http://miftyisbored.com/wp-content/uploads/2011/03/captain-america-movie-poster.jpg" alt="filmFoto" class="filmFoto">'+
 			      '<div class="caption">'+
 			        '<h2 class="filmTitel">'+val.titel+'</h2>'+
 					  	'<h3>Informatie</h3>'+
@@ -48,8 +48,21 @@ $(document).ready(function(){
 			    '</div>'+
 			  '</div>'
 			);
-			$("#loginForm").hide();
-			$("#usernav").show();
+
+		$.ajax({
+		dataType: 'json',
+		url: "http://www.omdbapi.com/?i="+val.imdb_nummer+"&plot=full&r=json"
+        		
+		}).fail(function(jqXHR,	textStatus)	{	
+			console.dir(jqXHR)
+	}).done(function(data)  { 
+		console.dir(data)
+		console.log(i);
+		console.log(data.Poster);
+		$('#'+i+'posterimage').attr("src",data.Poster)
+		console.log($('#'+i+'posterimage').src)
+		
+	});
 		});
 	});
 

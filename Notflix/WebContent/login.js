@@ -5,20 +5,35 @@ $(document).ready(function(){
 	if(localStorage.getItem("token").length > 0){
 		$("#loginForm").hide();
 		$("#usernav").show();
-		
-		$(".gebruikersRow").append(
+		$.ajax({
+			dataType: 'json',
+			url: "http://localhost:8080/Notflix/api/gebruikers/getbytoken",
+			headers: {
+				"Authorization": localStorage.getItem("token")
+			}
+        		
+			}).fail(function(jqXHR,	textStatus)	{	
+			console.dir(jqXHR)
+			$("tbody").append("<tr>"+
+    	        "<p>failed</p>"+
+    	      "</tr>"); 
+			}).done(function(data){ 
+				console.dir(data)
+				$(".gebruikersRow").append(
 			'<div class="col-lg-4">'
 	  		+ '<p class="text-center">'
 	  			+ '<span class="glyphicon glyphicon-user icon-size"></span>'
 			+ '</p>'
 			+ '</div>'
 			+ '<div class="col-lg-8">'
-			 	+ '<p class="text-left"><strong id="loggedInUserFullName">...</strong></p>'
-			   	+ '<p class="text-left small" id="loggedInUserEmail">...</p>'
+			 	+ '<p class="text-left"><strong id="loggedInUserFullName">'+data.voornaam+" "+data.tussenvoegsel+" "+data.achternaam+'</strong></p>'
+			   	+ '<p class="text-left small" id="loggedInUserNickname">'+data.nickname+'</p>'
 			   	+ '<p class="text-left">'
-			   		+ '<a href="#" class="btn btn-primary btn-block btn-sm">...</a>'
+			   		+ '<a href="#" class="btn btn-primary btn-block btn-sm">ratings</a>'
 			   	+ '</p>'
 			+ '</div>');
+		});
+		
 	}
 	else{
 		$("#loginForm").show();
@@ -61,7 +76,7 @@ $(document).ready(function(){
 		    	+ '</p>'
 		    + '</div>');
 			
-			 location.reload();
+			location.reload();
 		});
 	});
 	

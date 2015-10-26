@@ -62,7 +62,29 @@ public class GebruikerResource {
 		Gebruiker gebruiker = model.getGebruiker(nickname);
 		
 		if(gebruiker != null){
-			return Response.ok().entity(model.getGebruiker(nickname)).build();
+			return Response.ok().entity(gebruiker).build();
+		}
+		Error errorcode = new Error();
+		return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
+		}
+	}
+	
+	@GET
+	@Path("getbytoken")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getGebruikerByToken(@HeaderParam("Authorization") String token) {
+		
+		Model model = (Model) context.getAttribute("model"); 
+		
+		if(!model.isToken(token)){
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
+		} 
+		else{
+		Gebruiker gebruiker = model.getGebruikerByToken(token);
+		
+		if(gebruiker != null){
+			return Response.ok().entity(gebruiker).build();
 		}
 		Error errorcode = new Error();
 		return Response.status(404).entity(errorcode.getErrorMessage(404)).build();

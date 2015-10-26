@@ -9,10 +9,8 @@ $(document).ready(function(){
 	}).fail(function(jqXHR,	textStatus)	{	
 		console.dir(jqXHR)
 		$("tbody").append("<tr>"+
-            "<p></p>"+
-          "</tr>");
-        $("#loginForm").show();
-        $("#loggedInDropdown").hide();  
+            "<p>failed</p>"+
+          "</tr>"); 
 	}).done(function(data){ 
 		console.dir(data)
 		$(data).each(function(i,val){
@@ -22,9 +20,6 @@ $(document).ready(function(){
 			"<td>"+val.nickname+"</td>"+
 			"<td>"+val.voornaam+"</td>"+
 			"</tr>");
-			
-			$("#loginForm").hide();
-			$("#loggedInDropdown").show();
 		});
 	});
 
