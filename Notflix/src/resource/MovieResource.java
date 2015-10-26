@@ -1,5 +1,7 @@
 package resource;
 
+import java.util.ArrayList;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -67,6 +69,27 @@ public class MovieResource {
 			} 
 			else{
 				return Response.ok().entity(movie).build();
+			}
+		}
+
+	}
+	
+	@GET
+	@Path("TitelContains/{KeyWords}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getMoviebyTitelContains(@HeaderParam("Authorization") String token, @PathParam("KeyWords") String keyWords){
+		Model model = (Model) context.getAttribute("model");
+		
+		if(!model.isToken(token)){
+			return Response.status(401).build();
+		} 
+		else{
+			Movie[] gevondenfilms = model.getTitelContainsMovie(keyWords);
+			if(gevondenfilms.length<1){
+				return Response.status(404).build();
+			} 
+			else{
+				return Response.ok().entity(gevondenfilms).build();
 			}
 		}
 

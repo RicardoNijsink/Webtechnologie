@@ -213,6 +213,23 @@ public class Model {
 		return ratedMovies;
 	}
 	
+	public Movie[] getTitelContainsMovie(String keyWords){
+		ArrayList<Movie> gevondenlist = new ArrayList<>();
+		
+		for (Movie m :movies){
+			if (m.getTitel().contains(keyWords)){
+				gevondenlist.add(m);
+			}
+		}
+		Movie[] gevondenArray = new Movie[gevondenlist.size()];
+		int i = 0;
+		for (Movie m :gevondenlist){
+			gevondenArray[i] = m;
+			i++;
+		}
+		return  gevondenArray;
+	}
+	
 	/**
 	 * Methode om de gemiddelde rating van een film te bepalen
 	 * @param imdbId Het IMDB-nummer van de film
