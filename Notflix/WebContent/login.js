@@ -5,6 +5,20 @@ $(document).ready(function(){
 	if(localStorage.getItem("token").length > 0){
 		$("#loginForm").hide();
 		$("#usernav").show();
+		
+		$(".gebruikersRow").append(
+				'<div class="col-lg-4">'
+	  			+ '<p class="text-center">'
+	  				+ '<span class="glyphicon glyphicon-user icon-size"></span>'
+				+ '</p>'
+			    + '</div>'
+			    + '<div class="col-lg-8">'
+			    	+ '<p class="text-left"><strong id="loggedInUserFullName">...</strong></p>'
+			    	+ '<p class="text-left small" id="loggedInUserEmail">...</p>'
+			    	+ '<p class="text-left">'
+			    		+ '<a href="#" class="btn btn-primary btn-block btn-sm">...</a>'
+			    	+ '</p>'
+			    + '</div>');
 	}
 	else{
 		$("#loginForm").show();
