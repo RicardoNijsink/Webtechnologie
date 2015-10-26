@@ -7,18 +7,18 @@ $(document).ready(function(){
 		$("#usernav").show();
 		
 		$(".gebruikersRow").append(
-				'<div class="col-lg-4">'
-	  			+ '<p class="text-center">'
-	  				+ '<span class="glyphicon glyphicon-user icon-size"></span>'
-				+ '</p>'
-			    + '</div>'
-			    + '<div class="col-lg-8">'
-			    	+ '<p class="text-left"><strong id="loggedInUserFullName">...</strong></p>'
-			    	+ '<p class="text-left small" id="loggedInUserEmail">...</p>'
-			    	+ '<p class="text-left">'
-			    		+ '<a href="#" class="btn btn-primary btn-block btn-sm">...</a>'
-			    	+ '</p>'
-			    + '</div>');
+			'<div class="col-lg-4">'
+	  		+ '<p class="text-center">'
+	  			+ '<span class="glyphicon glyphicon-user icon-size"></span>'
+			+ '</p>'
+			+ '</div>'
+			+ '<div class="col-lg-8">'
+			 	+ '<p class="text-left"><strong id="loggedInUserFullName">...</strong></p>'
+			   	+ '<p class="text-left small" id="loggedInUserEmail">...</p>'
+			   	+ '<p class="text-left">'
+			   		+ '<a href="#" class="btn btn-primary btn-block btn-sm">...</a>'
+			   	+ '</p>'
+			+ '</div>');
 	}
 	else{
 		$("#loginForm").show();
@@ -60,6 +60,8 @@ $(document).ready(function(){
 		    		+ '<a href="#" class="btn btn-primary btn-block btn-sm">...</a>'
 		    	+ '</p>'
 		    + '</div>');
+			
+			 location.reload();
 		});
 	});
 	
@@ -68,5 +70,7 @@ $(document).ready(function(){
 		localStorage.setItem("token", "");
 		$("#loginForm").show();
 		$("#usernav").hide();
+		
+		 location.reload();
 	});
 });
