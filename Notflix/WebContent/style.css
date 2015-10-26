@@ -66,6 +66,19 @@ label{
   color: #999;
 }
 
+#zoekbalk{
+	width: 100%;
+}
+
+#invoerveld{
+	display: inline-block;
+	margin: 0;
+}
+
+.filmsRow{
+	height: 5px;
+}
+
 .navbar-login
 {
     width: 305px;
