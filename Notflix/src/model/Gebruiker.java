@@ -176,7 +176,7 @@ public class Gebruiker {
 	}
 	
 	/**
-	 * Class voor het maken van een tokenoject om zo weer te geven in JSON en XML
+	 * Class voor het maken van een tokenobject om zo weer te geven in JSON en XML
 	 * @return De token
 	 */
 	@JsonIgnore

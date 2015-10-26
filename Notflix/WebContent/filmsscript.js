@@ -8,7 +8,7 @@ $(document).ready(function(){
         		
 	}).fail(function(jqXHR,	textStatus)	{	
 		console.dir(jqXHR)
-		$(".row").append(
+		$(".filmsRow").append(
           '<div class="col-sm-6 col-md-4">'+
 		    '<div class="thumbnail">'+
 		      '<div class="caption">'+
@@ -20,11 +20,11 @@ $(document).ready(function(){
 		  '</div>'
 		);
 		$("#loginForm").show();
-		$("#loggedInDropdown").hide();
+		$("#usernav").hide();
 	}).done(function(data)  { 
 		console.dir(data)
 		$(data).each(function(i,val){
-			$(".row").append(
+			$(".filmsRow").append(
 	          '<div class="col-sm-6 col-md-4">'+
 			    '<div class="thumbnail">'+
 			      '<img src="http://miftyisbored.com/wp-content/uploads/2011/03/captain-america-movie-poster.jpg" alt="filmFoto" class="filmFoto">'+
@@ -32,13 +32,16 @@ $(document).ready(function(){
 			        '<h2 class="filmTitel">'+val.titel+'</h2>'+
 					  	'<h3>Informatie</h3>'+
 					  	'<div class="filmInformatieDiv">'+
-						  	'<label>Regisseur: '+val.regisseur+'</label><br>'+
-						  	'<label>Releasedatum: '+val.release_datum+'</label><br>'+
-						  	'<label>Acteurs:</label><br>'+
-						  	'<label>Gemiddelde rating: '+val.gemiddeldeRating+'</label>'+
+						  	'<label class="filmLabel">Regisseur: '+ val.regisseur +'</label><br>'+
+						  	'<label class="filmLabel">Releasedatum: '+ val.release_datum +'</label><br>'+
+						  	'<label class="filmLabel">IMDB-nummer: ' + val.imdb_nummer + '</label><br>'+
+						  	'<label class="filmLabel">Lengte: ' + val.lengte + ' minuten</label><br>'+
+						  	'<label class="filmLabel">Beschrijving: </label>' +
+						  	'<label class="filmLabel" id="beschrijvingLabel">' + val.beschrijving + '</label><br>'+
+						  	'<label class="filmLabel">Gemiddelde rating: '+ val.gemiddeldeRating +'</label>'+
 					  	'</div>'+
 					'<p>'+
-			        	'<a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default"'+
+			        	'<a href="#" class="btn btn-primary" role="button">Rating toevoegen</a> <a href="#" class="btn btn-default"'+
 			        	'role="button">Button</a>'+
 			        '</p>'+
 			      '</div>'+
@@ -46,7 +49,7 @@ $(document).ready(function(){
 			  '</div>'
 			);
 			$("#loginForm").hide();
-			$("#loggedInDropdown").show();
+			$("#usernav").show();
 		});
 	});
 
