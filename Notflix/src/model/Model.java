@@ -25,30 +25,30 @@ public class Model {
 		gebruikers.add(new Gebruiker("test", "test", "test", "test", "test"));
 		gebruikers.get(0).addRating(new Rating(5.0, "tt0231846"));
 		
-		movies.add(new Movie("tt1592873", "Star Wars Episode VII - The Force Awakens",
+		movies.add(new Movie("tt2488496", "Star Wars Episode VII - The Force Awakens",
 				"2015-12-16", 136.0, "J.J. Abrams", "A continuation of the saga created by George Lucas set thirty years after Star Wars: Episode VI - Return of the Jedi (1983)."));
 		
-		movies.add(new Movie("tt0137523", "Spectre", "2015-10-29", 148.0, "S. Mendes", "A cryptic message from Bond's past sends him on a trail to uncover a sinister organization. "
+		movies.add(new Movie("tt2379713", "Spectre", "2015-10-29", 148.0, "S. Mendes", "A cryptic message from Bond's past sends him on a trail to uncover a sinister organization. "
 				+ "While M battles political forces to keep the secret service alive, Bond peels back the layers of deceit to reveal the terrible truth behind SPECTRE."));
 		
-		movies.add(new Movie("tt0961036", "Black Mass", "2015-10-15", 122.0, "S. Cooper", "The true story of Whitey Bulger, the brother of a state senator"
+		movies.add(new Movie("tt1355683", "Black Mass", "2015-10-15", 122.0, "S. Cooper", "The true story of Whitey Bulger, the brother of a state senator"
 				+ " and the most infamous violent criminal in the history of South Boston, who became an FBI informant to take down a Mafia family invading his turf."));
 		
-		movies.add(new Movie("tt4225190", "Hitman: Agent 47", "2015-09-03", 96.0, "A. Bach", "An assassin teams up with a woman to help her find her father and uncover the mysteries of her ancestry."));
+		movies.add(new Movie("tt2679042", "Hitman: Agent 47", "2015-09-03", 96.0, "A. Bach", "An assassin teams up with a woman to help her find her father and uncover the mysteries of her ancestry."));
 		
-		movies.add(new Movie("tt0188377", "Terminator Genisys", "2015-07-09", 126.0, "A. Taylor", "When John Connor, leader of the human resistance, sends Sgt. Kyle Reese back to 1984 to protect Sarah Connor"
+		movies.add(new Movie("tt1340138", "Terminator Genisys", "2015-07-09", 126.0, "A. Taylor", "When John Connor, leader of the human resistance, sends Sgt. Kyle Reese back to 1984 to protect Sarah Connor"
 				+ " and safeguard the future, an unexpected turn of events creates a fractured timeline."));
 		
-		movies.add(new Movie("tt2783860", "Ant-Man", "2015-07-23", 117.0, "P. Reed", "Armed with a super-suit with the astonishing ability to shrink in scale but increase in strength,"
+		movies.add(new Movie("tt0478970", "Ant-Man", "2015-07-23", 117.0, "P. Reed", "Armed with a super-suit with the astonishing ability to shrink in scale but increase in strength,"
 				+ " cat burglar Scott Lang must embrace his inner hero and help his mentor, Dr. Hank Pym, plan and pull off a heist that will save the world."));
 		
-		movies.add(new Movie("tt1419918", "Mission: Impossible - Rogue Nation", "2015-07-30", 131.0, "C. McQuarrie", "Ethan and team take on their most impossible mission yet, eradicating the Syndicate"
+		movies.add(new Movie("tt2381249", "Mission: Impossible - Rogue Nation", "2015-07-30", 131.0, "C. McQuarrie", "Ethan and team take on their most impossible mission yet, eradicating the Syndicate"
 				+ " - an International rogue organization as highly skilled as they are, committed to destroying the IMF."));
 		
-		movies.add(new Movie("tt0108722", "Jurassic World", "2015-06-11", 124.0, "C. Trevorrow", "A new theme park is built on the original site of Jurassic Park. Everything is going well until the park's newest attraction-"
+		movies.add(new Movie("tt0369610", "Jurassic World", "2015-06-11", 124.0, "C. Trevorrow", "A new theme park is built on the original site of Jurassic Park. Everything is going well until the park's newest attraction-"
 				+ "-a genetically modified giant stealth killing machine--escapes containment and goes on a killing spree."));
 		
-		movies.add(new Movie("tt1500703", "Avengers: Age of Ultron", "2015-04-22", 141.0, "J. Whedon", "When Tony Stark and Bruce Banner try to jump-start a dormant peacekeeping program called Ultron,"
+		movies.add(new Movie("tt2395427", "Avengers: Age of Ultron", "2015-04-22", 141.0, "J. Whedon", "When Tony Stark and Bruce Banner try to jump-start a dormant peacekeeping program called Ultron,"
 				+ " things go horribly wrong and it's up to Earth's Mightiest Heroes to stop the villainous Ultron from enacting his terrible plans."));
 		
 		gebruikers.add(new Gebruiker("test1", "test", "test", "test1", "test"));
