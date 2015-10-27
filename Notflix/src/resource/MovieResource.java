@@ -33,16 +33,11 @@ public class MovieResource {
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Response getMovies(@HeaderParam("Authorization") String token) {
+	public Response getMovies() {
 		
 		Model model = (Model) context.getAttribute("model");
-		if(!model.isToken(token)){
-			Error errorcode = new Error();
-			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
-		} 
-		else{
-			return Response.ok().entity(model.getMovies()).build();
-		}
+		
+		return Response.ok().entity(model.getMovies()).build();
 	}
 	
 	/**

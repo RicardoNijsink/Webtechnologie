@@ -32,10 +32,16 @@ public class GebruikerResource {
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Response getGebruikers() {
+	public Response getGebruikers(@HeaderParam("Authorization") String token) {
 		Model model = (Model) context.getAttribute("model");
 		
-		return Response.ok().entity(model.getGebruikers()).build();
+		if(!model.isToken(token)){
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
+		}
+		else{
+			return Response.ok().entity(model.getGebruikers()).build();
+		}
 	}
 	
 	/**

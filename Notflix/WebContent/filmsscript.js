@@ -1,10 +1,7 @@
 $(document).ready(function(){
 	$.ajax({
 		dataType: 'json',
-		url: "http://localhost:8080/Notflix/api/movies",
-		headers: {
-			"Authorization": localStorage.getItem("token")
-		}
+		url: "http://localhost:8080/Notflix/api/movies"
         		
 	}).fail(function(jqXHR,	textStatus)	{	
 		console.dir(jqXHR)
@@ -41,31 +38,37 @@ $(document).ready(function(){
 						  	'<label class="filmLabel">Gemiddelde rating: '+ val.gemiddeldeRating +'</label>'+
 					  	'</div>'+
 					'<p>'+
-			        	'<a href="#" class="btn btn-primary" role="button">Rating toevoegen</a> <a href="#" class="btn btn-default"'+
-			        	'role="button">Button</a>'+
+						'<button class="buttonNotflix" id="buttonRatingToevoegen'+ i + '" hidden>Rating toevoegen</button>' +
+						'<button class="buttonNotflix" id="buttonRatingVerwijderen'+ i + '" hidden>Rating verwijderen</button>' +
 			        '</p>'+
 			      '</div>'+
 			    '</div>'+
 			  '</div>'
 			);
 
-		$.ajax({
-		dataType: 'json',
-		url: "http://www.omdbapi.com/?i="+val.imdb_nummer+"&plot=full&r=json"
-        		
-		}).fail(function(jqXHR,	textStatus)	{	
-			console.dir(jqXHR)
-	}).done(function(data)  { 
-		console.dir(data)
-		console.log(i);
-		console.log(data.Poster);
-		$('#'+i+'posterimage').attr("src",data.Poster)
-		console.log($('#'+i+'posterimage').src)
-		
-	});
+			$.ajax({
+			dataType: 'json',
+			url: "http://www.omdbapi.com/?i="+val.imdb_nummer+"&plot=full&r=json"
+	        		
+			}).fail(function(jqXHR,	textStatus)	{	
+				console.dir(jqXHR)
+			}).done(function(data) { 
+				console.dir(data)
+				console.log(i);
+				console.log(data.Poster);
+				$('#'+i+'posterimage').attr("src",data.Poster)
+				console.log($('#'+i+'posterimage').src)
+				
+			});
+			
+			if(localStorage.getItem("token").length > 0){
+				console.log("test")
+				$("#buttonRatingToevoegen" + i).show();
+			}
+			else{
+				console.log("test2")
+				$("#buttonRatingToevoegen" + i).hide();
+			}
 		});
-		
 	});
-	
-
 });
