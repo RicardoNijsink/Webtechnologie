@@ -60,12 +60,14 @@ public class MovieResource {
 		Model model = (Model) context.getAttribute("model");
 		
 		if(!model.isToken(token)){
-			return Response.status(401).build();
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		} 
 		else{
 			Movie movie = model.getMovie(imdbId);
 			if(movie == null){
-				return Response.status(404).build();
+				Error errorcode = new Error();
+				return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
 			} 
 			else{
 				return Response.ok().entity(movie).build();
@@ -81,15 +83,20 @@ public class MovieResource {
 		Model model = (Model) context.getAttribute("model");
 		
 		if(!model.isToken(token)){
-			return Response.status(401).build();
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		} 
 		else{
 			Movie[] gevondenfilms = model.getTitelContainsMovie(keyWords);
+			System.out.println("gevondenfilms "+gevondenfilms);
+			System.out.println("met keyword "+keyWords);
 			if(gevondenfilms.length<1){
-				return Response.status(404).build();
+				
+				Error errorcode = new Error();
+				return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
 			} 
 			else{
-				return Response.ok().entity(gevondenfilms).build();
+				return Response.ok().entity(model.getTitelContainsMovie(keyWords)).build();
 			}
 		}
 

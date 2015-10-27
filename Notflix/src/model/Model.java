@@ -217,17 +217,21 @@ public class Model {
 		ArrayList<Movie> gevondenlist = new ArrayList<>();
 		
 		for (Movie m :movies){
+			System.out.println("movie titel = "+m.getTitel());
 			if (m.getTitel().contains(keyWords)){
 				gevondenlist.add(m);
 			}
 		}
 		Movie[] gevondenArray = new Movie[gevondenlist.size()];
 		int i = 0;
+		System.out.println(keyWords);
 		for (Movie m :gevondenlist){
+			System.out.println("movie titel = "+m.getTitel());
 			gevondenArray[i] = m;
 			i++;
 		}
-		return  gevondenArray;
+		return gevondenArray;
+		
 	}
 	
 	/**
