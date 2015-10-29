@@ -3,8 +3,6 @@ $(document).ready(function(){
 	console.log(localStorage.getItem("token"))
 	
 	if(localStorage.getItem("token").length > 0){
-		$("#loginForm").hide();
-		$("#usernav").show();
 		$.ajax({
 			dataType: 'json',
 			url: "http://localhost:8080/Notflix/api/gebruikers/getbytoken",
@@ -14,10 +12,11 @@ $(document).ready(function(){
         		
 			}).fail(function(jqXHR,	textStatus)	{	
 			console.dir(jqXHR)
-			$("tbody").append("<tr>"+
-    	        "<p>failed</p>"+
-    	      "</tr>"); 
+			alert("loginFailed")
+			localStorage.setItem("token", "");
 			}).done(function(data){ 
+				$("#loginForm").hide();
+		$("#usernav").show();
 				console.dir(data)
 				$(".gebruikersRow").append(
 			'<div class="col-lg-4">'
