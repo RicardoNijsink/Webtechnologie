@@ -68,7 +68,6 @@ public class Model {
 	public Movie[] getMovies() {
 		Movie[] movieslist = new Movie[movies.size()];
 		int i = 0;
-		
 		for(Movie m : movies){
 			movieslist[i] = m;
 			i++;
@@ -214,7 +213,7 @@ public class Model {
 		return ratedMovies;
 	}
 	
-	public Movie[] getTitelContainsMovie(String keyWords, String token){
+	public Movie[] getTitelContainsMovie(String keyWords){
 		ArrayList<Movie> gevondenlist = new ArrayList<>();
 		
 		for (Movie m :movies){
@@ -226,20 +225,8 @@ public class Model {
 		Movie[] gevondenArray = new Movie[gevondenlist.size()];
 		int i = 0;
 		System.out.println(keyWords);
-		Gebruiker g =getGebruikerByToken(token);
 		for (Movie m :gevondenlist){
 			System.out.println("movie titel = "+m.getTitel());
-			if (g!=null){
-				ReturnMovie rm = (ReturnMovie) m;
-				if (g.isRated(m.getImdb_nummer())){
-					rm.setRated(true);
-					
-				}else{
-					rm.setRated(false);
-				}
-				
-				m=rm;
-			}
 			gevondenArray[i] = m;
 			i++;
 		}

@@ -82,7 +82,7 @@ public class MovieResource {
 			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		} 
 		else{
-			Movie[] gevondenfilms = model.getTitelContainsMovie(keyWords, token);
+			Movie[] gevondenfilms = model.getTitelContainsMovie(keyWords);
 			System.out.println("gevondenfilms "+gevondenfilms);
 			System.out.println("met keyword "+keyWords);
 			if(gevondenfilms.length<1){
@@ -91,7 +91,7 @@ public class MovieResource {
 				return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
 			} 
 			else{
-				return Response.ok().entity(gevondenfilms).build();
+				return Response.ok().entity(model.getTitelContainsMovie(keyWords)).build();
 			}
 		}
 
