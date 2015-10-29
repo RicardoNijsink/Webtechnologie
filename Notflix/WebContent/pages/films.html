@@ -103,9 +103,27 @@
 
     <h1>Films</h1>
 
-		<div class="filmsRow">
+	<div class="filmsRow">
 		  
+	</div>
+	
+	<div id="light" class="white_content">
+		<p class="labelNotflix">Geef uw rating</p>
+		<div class="container">
+				<div class="input-group number-spinner">
+					<span class="input-group-btn">
+						<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+					</span>
+					<input type="text" class="form-control text-center" id="ratingInput" value="1.0" size="2" readonly>
+					<span class="input-group-btn">
+						<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+					</span>
+				</div>
 		</div>
+		<button class="buttonNotflix" id="buttonVoegRatingToe">Voeg rating toe</button>
+		<button class="buttonNotflix" id="buttonAnnuleer">Annuleer</button>
+	</div>
+	<div id="fade" class="black_overlay"></div>
 
   </body>
 </html>

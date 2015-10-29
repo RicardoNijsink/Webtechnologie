@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	var rating = 0;
+	
 	$.ajax({
 		dataType: 'json',
 		url: "http://localhost:8080/Notflix/api/movies"
@@ -62,13 +64,42 @@ $(document).ready(function(){
 			});
 			
 			if(localStorage.getItem("token").length > 0){
-				console.log("test")
 				$("#buttonRatingToevoegen" + i).show();
 			}
 			else{
-				console.log("test2")
 				$("#buttonRatingToevoegen" + i).hide();
 			}
+			
+			$("#buttonRatingToevoegen" + i).click(function(){
+				$("#light").show();
+				$("#fade").show();
+			});
+		});
+		
+		$(".number-spinner button").click(function(){
+			var btn = $(this),
+			oldValue = $("#ratingInput").val().trim(),
+			newVal = 0;
+		
+			if (btn.attr('data-dir') == 'up') {
+				newVal = (parseFloat(oldValue) + 0.5).toFixed(1);
+				
+				if(newVal > 5){
+					newVal = parseFloat(5.0).toFixed(1);
+				}
+			} else {
+				if (oldValue > 1) {
+					newVal = (parseFloat(oldValue) - 0.5).toFixed(1);
+				} else {
+					newVal = parseFloat(1.0).toFixed(1);
+				}
+			}
+			btn.closest('.number-spinner').find('input').val(newVal);
+		});
+		
+		$("#buttonAnnuleer").click(function(){
+			$("#light").hide();
+			$("#fade").hide();
 		});
 	});
 });
