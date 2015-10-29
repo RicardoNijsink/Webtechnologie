@@ -1,5 +1,10 @@
 $(document).ready(function(){
+	films();
+});
+
+function films(){
 	var rating = 0;
+	var imdbId;
 	
 	$.ajax({
 		dataType: 'json',
@@ -7,6 +12,7 @@ $(document).ready(function(){
         		
 	}).fail(function(jqXHR,	textStatus)	{	
 		console.dir(jqXHR)
+		$(".filmsRow").empty();
 		$(".filmsRow").append(
           '<div class="col-sm-6 col-md-4">'+
 		    '<div class="thumbnail">'+
@@ -22,7 +28,13 @@ $(document).ready(function(){
 		$("#usernav").hide();
 	}).done(function(data)  { 
 		console.dir(data)
+		$(".filmsRow").empty();
 		$(data).each(function(i,val){
+			var gemiddelde = val.gemiddeldeRating;
+			
+			if(isNaN(val.gemiddeldeRating)){
+				gemiddelde = "Geen gemiddelde rating";
+			}
 			$(".filmsRow").append(
 	          '<div class="col-sm-6 col-md-4">'+
 			    '<div class="thumbnail">'+
@@ -37,7 +49,7 @@ $(document).ready(function(){
 						  	'<label class="filmLabel">Lengte: ' + val.lengte + ' minuten</label><br>'+
 						  	'<label class="filmLabel">Beschrijving: </label>' +
 						  	'<label class="filmLabel" id="beschrijvingLabel">' + val.beschrijving + '</label><br>'+
-						  	'<label class="filmLabel">Gemiddelde rating: '+ val.gemiddeldeRating +'</label>'+
+						  	'<label class="filmLabel">Gemiddelde rating: '+ gemiddelde +'</label>'+
 					  	'</div>'+
 					'<p>'+
 						'<button class="buttonNotflix" id="buttonRatingToevoegen'+ i + '" hidden>Rating toevoegen</button>' +
@@ -73,10 +85,13 @@ $(document).ready(function(){
 			$("#buttonRatingToevoegen" + i).click(function(){
 				$("#light").show();
 				$("#fade").show();
+				imdbId = val.imdb_nummer;
 			});
 		});
 		
-		$(".number-spinner button").click(function(){
+		$(".number-spinner button").click(function(event){
+			event.preventDefault();
+			
 			var btn = $(this),
 			oldValue = $("#ratingInput").val().trim(),
 			newVal = 0;
@@ -101,5 +116,37 @@ $(document).ready(function(){
 			$("#light").hide();
 			$("#fade").hide();
 		});
+		
+		$("#buttonVoegRatingToe").click(function(event){
+			event.preventDefault();
+			rating = $('#ratingInput').val();
+			
+			alert(rating)
+			alert(imdbId)
+			
+			var data = new FormData();
+			data.append("rating", rating);
+			data.append("imdbId", imdbId);
+			
+			$.ajax({
+				dataType: 'json',
+				type: "POST",
+				url: "http://localhost:8080/Notflix/api/ratings",
+				data: "rating="+rating+"&imdbId="+imdbId,
+				processData: false,
+				headers: {
+					"Authorization": localStorage.getItem("token")
+				}
+		        		
+			}).fail(function(jqXHR,	textStatus)	{	
+				console.dir(jqXHR)
+				alert("niet toegevoegd")
+			}).done(function(data) { 
+				alert("toegevoegd")
+				$("#light").hide();
+				$("#fade").hide();
+				films();
+			});
+		});
 	});
-});
+}

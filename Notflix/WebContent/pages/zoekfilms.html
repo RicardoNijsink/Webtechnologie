@@ -89,7 +89,7 @@
                     	<div class="row">
                       	<div class="col-lg-12">
                         	<p>
-              	          		<a href="films.html" class="btn btn-danger btn-block" id="logout">Log uit</a>
+              	          		<a href="zoekfilms.html" class="btn btn-danger btn-block" id="logout">Log uit</a>
                 	      	</p>
                       	</div>
                   		</div>
@@ -112,8 +112,28 @@
 	</form>
 	
 	<div class="filmsRow">
-		  
 	</div>
+	
+	<div id="light" class="white_content">
+		<p class="labelNotflix">Geef uw rating</p>
+		<form action="../api/ratings" id="ratingForm">
+			<div class="container">
+					<div class="input-group number-spinner">
+						<span class="input-group-btn">
+							<button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+						</span>
+						<input type="text" class="form-control text-center" name="rating" id="ratingInput" value="1.0" size="2" readonly>
+						<span class="input-group-btn">
+							<button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+						</span>
+					</div>
+			</div>
+			<button type="submit" class="buttonNotflix" id="buttonVoegRatingToe">Voeg rating toe</button>
+		</form>
+
+		<button class="buttonNotflix" id="buttonAnnuleer">Annuleer</button>
+	</div>
+	<div id="fade" class="black_overlay"></div>
 
   </body>
 </html>

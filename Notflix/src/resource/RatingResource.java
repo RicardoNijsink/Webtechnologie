@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import model.Error;
 import model.Gebruiker;
 import model.Model;
+import model.Movie;
 import model.Rating;
 
 
@@ -106,9 +107,11 @@ public class RatingResource {
 			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
 		}
 		else{
-			double doubleRating;
+			double doubleRating = 0;
 			try{
-				doubleRating = Double.parseDouble(rating);
+				if(rating != null){
+					doubleRating = Double.parseDouble(rating);
+				}
 				if (rating == null || imdbId == null || imdbId.length() <= 0 || doubleRating < 0.5 || doubleRating > 5){
 					Error errorcode = new Error();
 					return Response.status(400).entity(errorcode.getErrorMessage(400)).build();

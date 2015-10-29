@@ -69,6 +69,7 @@ public class Model {
 		Movie[] movieslist = new Movie[movies.size()];
 		int i = 0;
 		for(Movie m : movies){
+			m.setGemiddeldeRating(getRating(m.getImdb_nummer()));
 			movieslist[i] = m;
 			i++;
 		}
