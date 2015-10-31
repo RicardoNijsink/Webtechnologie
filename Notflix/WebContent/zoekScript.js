@@ -5,7 +5,6 @@ $(document).ready(function(){
 });
 
 function zoek(){
-		/* stop form from submitting normally */
 		console.log("form called")
 		event.preventDefault();
 		console.log($('#inputInvoerveld').val())

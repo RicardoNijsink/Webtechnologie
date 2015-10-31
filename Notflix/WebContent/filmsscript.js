@@ -51,11 +51,11 @@ function films(){
 						  	'<label class="filmLabel" id="beschrijvingLabel">' + val.beschrijving + '</label><br>'+
 						  	'<label class="filmLabel">Gemiddelde rating: '+ gemiddelde +'</label>'+
 					  	'</div>'+
-					'<p>'+
-						'<button class="buttonNotflix" id="buttonRatingToevoegen'+ i + '" hidden>Rating toevoegen</button>' +
-						'<button class="buttonNotflix" id="buttonRatingVerwijderen'+ i + '" hidden>Rating verwijderen</button>' +
-			        '</p>'+
 			      '</div>'+
+			      '<p>'+
+					'<button class="buttonNotflix" id="buttonRatingToevoegen'+ i + '" hidden>Rating toevoegen</button>' +
+					'<button class="buttonNotflix" id="buttonRatingVerwijderen'+ i + '" hidden>Rating verwijderen</button>' +
+		        '</p>'+
 			    '</div>'+
 			  '</div>'
 			);
@@ -120,13 +120,6 @@ function films(){
 		$("#buttonVoegRatingToe").click(function(event){
 			event.preventDefault();
 			rating = $('#ratingInput').val();
-			
-			alert(rating)
-			alert(imdbId)
-			
-			var data = new FormData();
-			data.append("rating", rating);
-			data.append("imdbId", imdbId);
 			
 			$.ajax({
 				dataType: 'json',

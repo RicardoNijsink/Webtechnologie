@@ -2,7 +2,7 @@ $(document).ready(function(){
 	console.log("doc loaded")
 	console.log(localStorage.getItem("token"))
 	
-	if(localStorage.getItem("token").length > 0){
+	if(localStorage.getItem("token") != null && localStorage.getItem("token").length > 0){
 		$.ajax({
 			dataType: 'json',
 			url: "http://localhost:8080/Notflix/api/gebruikers/getbytoken",
@@ -12,11 +12,10 @@ $(document).ready(function(){
         		
 			}).fail(function(jqXHR,	textStatus)	{	
 			console.dir(jqXHR)
-			alert("loginFailed")
 			localStorage.setItem("token", "");
 			}).done(function(data){ 
 				$("#loginForm").hide();
-		$("#usernav").show();
+				$("#usernav").show();
 				console.dir(data)
 				$(".gebruikersRow").append(
 			'<div class="col-lg-4">'
@@ -28,7 +27,7 @@ $(document).ready(function(){
 			 	+ '<p class="text-left"><strong id="loggedInUserFullName">'+data.voornaam+" "+data.tussenvoegsel+" "+data.achternaam+'</strong></p>'
 			   	+ '<p class="text-left small" id="loggedInUserNickname">'+data.nickname+'</p>'
 			   	+ '<p class="text-left">'
-			   		+ '<a href="#" class="btn btn-primary btn-block btn-sm">ratings</a>'
+			   		+ '<a href="ratings.html" class="btn btn-primary btn-block btn-sm" id="ratingsPaginaButton">Bekijk ratings</a>'
 			   	+ '</p>'
 			+ '</div>');
 		});
@@ -54,26 +53,11 @@ $(document).ready(function(){
 
 		}).fail(function(jqXHR, textStatus){ 
 			console.dir(jqXHR);
+			alert("Login mislukt")
 		}).done(function(data){ 
 			console.dir(data)
 			console.log(data.token)
 			localStorage.setItem("token", data.token);
-			$("#loginForm").hide();
-			$("#usernav").show();
-			
-			$(".gebruikersRow").append(
-			'<div class="col-lg-4">'
-  			+ '<p class="text-center">'
-  				+ '<span class="glyphicon glyphicon-user icon-size"></span>'
-			+ '</p>'
-		    + '</div>'
-		    + '<div class="col-lg-8">'
-		    	+ '<p class="text-left"><strong id="loggedInUserFullName">...</strong></p>'
-		    	+ '<p class="text-left small" id="loggedInUserEmail">...</p>'
-		    	+ '<p class="text-left">'
-		    		+ '<a href="#" class="btn btn-primary btn-block btn-sm">...</a>'
-		    	+ '</p>'
-		    + '</div>');
 			
 			location.reload();
 		});
@@ -85,6 +69,6 @@ $(document).ready(function(){
 		$("#loginForm").show();
 		$("#usernav").hide();
 		
-		 location.reload();
+		location.reload();
 	});
 });
