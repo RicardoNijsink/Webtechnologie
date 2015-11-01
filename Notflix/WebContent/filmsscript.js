@@ -51,19 +51,11 @@ function films(){
 						  	'<label class="filmLabel" id="beschrijvingLabel">' + val.beschrijving + '</label><br>'+
 						  	'<label class="filmLabel">Gemiddelde rating: '+ gemiddelde +'</label>'+
 					  	'</div>'+
-<<<<<<< HEAD
 					'<p>'+
 						'<button class="buttonNotflix" id="buttonRatingToevoegen'+ i + '" hidden>Rating toevoegen</button>' +
 						'<button class="buttonNotflix" id="buttonRatingUpdaten'+ i + '" hidden>Rating updaten</button>' +
 						'<button class="buttonNotflix" id="buttonRatingVerwijderen'+ i + '" hidden>Rating verwijderen</button>' +
 			        '</p>'+
-=======
->>>>>>> 3e11a64758f6998af44bdd96aee59abdc8e68a54
-			      '</div>'+
-			      '<p>'+
-					'<button class="buttonNotflix" id="buttonRatingToevoegen'+ i + '" hidden>Rating toevoegen</button>' +
-					'<button class="buttonNotflix" id="buttonRatingVerwijderen'+ i + '" hidden>Rating verwijderen</button>' +
-		        '</p>'+
 			    '</div>'+
 			  '</div>'
 			);
