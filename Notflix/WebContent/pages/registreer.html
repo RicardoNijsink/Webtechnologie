@@ -17,7 +17,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+	<script type="text/javascript" src="../registreerScript.js"></script>
     <link rel="stylesheet" href="../style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -100,23 +100,24 @@
 
 	<div id="registreerBody">
 	    <h1>Registreren</h1>
-	
-	    <form id="loginForm">
+		<div class = "userFeedbackDiv">
+		</div><br>
+	    <form id="registreerForm" action="../api/gebruikers" method = "post">
 	      <div class="form-group has-succes has-feedback">
 	        <label for="inputVoornaam">Voornaam</label>
 	        <input type="text" class="form-control" id="inputVoornaam" placeholder="Voornaam" name="voornaam">
 	      </div>
 	      <div class="form-group">
 	        <label for="inputTussenvoegsel">Tussenvoegsel</label>
-	        <input type="text" class="form-control" id="inputTussenvoegsel" placeholder="Tussenvoegsel">
+	        <input type="text" class="form-control" id="inputTussenvoegsel" placeholder="Tussenvoegsel" name="tussenvoegsel">
 	      </div>
 	      <div class="form-group">
 	        <label for="inputAchternaam">Achternaam</label>
-	        <input type="text" class="form-control" id="inputAchternaam" placeholder="Achternaam">
+	        <input type="text" class="form-control" id="inputAchternaam" placeholder="Achternaam" name="achternaam">
 	      </div>
 	      <div class="form-group">
 	        <label for="inputNickname">Nickname</label>
-	        <input type="text" class="form-control" id="inputNickname" placeholder="Nickname">
+	        <input type="text" class="form-control" id="inputNickname" placeholder="Nickname" name="nickname">
 	      </div>
 	      <div class="form-group">
 	        <label for="inputPassword1">Wachtwoord</label>

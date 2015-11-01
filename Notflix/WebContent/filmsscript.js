@@ -53,6 +53,7 @@ function films(){
 					  	'</div>'+
 					'<p>'+
 						'<button class="buttonNotflix" id="buttonRatingToevoegen'+ i + '" hidden>Rating toevoegen</button>' +
+						'<button class="buttonNotflix" id="buttonRatingUpdaten'+ i + '" hidden>Rating updaten</button>' +
 						'<button class="buttonNotflix" id="buttonRatingVerwijderen'+ i + '" hidden>Rating verwijderen</button>' +
 			        '</p>'+
 			      '</div>'+
@@ -60,6 +61,7 @@ function films(){
 			  '</div>'
 			);
 
+//				get film posters
 			$.ajax({
 			dataType: 'json',
 			url: "http://www.omdbapi.com/?i="+val.imdb_nummer+"&plot=full&r=json"
@@ -75,18 +77,45 @@ function films(){
 				
 			});
 			
-			if(localStorage.getItem("token").length > 0){
-				$("#buttonRatingToevoegen" + i).show();
-			}
-			else{
-				$("#buttonRatingToevoegen" + i).hide();
-			}
+			$("#buttonRatingToevoegen" + i).click(function(){
+				$("#light").show();
+				$("#fade").show();
+				imdbId = val.imdb_nummer;
+			});
+
+//		check ratings
+if(localStorage.getItem("token").length > 0){
+		$.ajax({
+			type: "GET",
+			url: "../api/ratings/"+val.imdb_nummer,
+			headers: {
+				"Authorization": localStorage.getItem("token")
+			}    		
+			}).fail(function(jqXHR,	textStatus)	{	
+				console.dir(jqXHR)
+				if (jqXHR.Status = "404"){
+					$("#buttonRatingToevoegen" + i).show()
+					$("#buttonRatingUpdaten" + i).hide()
+					$("#buttonRatingVerwijderen" + i).hide()
+
+				}
+			}).done(function(data) { 
+				console.dir(data)
+				console.log(i);
+				console.log(data.Poster);
+				$("#buttonRatingToevoegen" + i).hide()
+				$("#buttonRatingUpdaten" + i).show()
+				$("#buttonRatingVerwijderen" + i).show()
+				console.log($('#'+i+'posterimage').src)
+				
+			});
 			
 			$("#buttonRatingToevoegen" + i).click(function(){
 				$("#light").show();
 				$("#fade").show();
 				imdbId = val.imdb_nummer;
 			});
+}
 		});
 		
 		$(".number-spinner button").click(function(event){

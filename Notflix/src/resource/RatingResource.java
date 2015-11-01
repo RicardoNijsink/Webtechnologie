@@ -49,6 +49,25 @@ public class RatingResource {
 			return Response.ok().entity(gebruiker.getRatings()).build();
 		}
 	}
+	@GET
+	@Path ("{imdbId}")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Response getMovieById(@HeaderParam("Authorization") String token, @PathParam("imdbId") String imdbId) {
+		Model model = (Model) context.getAttribute("model");
+		Gebruiker gebruiker = model.getGebruikerByToken(token);
+		if(gebruiker==null){
+			Error errorcode = new Error();
+			return Response.status(401).entity(errorcode.getErrorMessage(401)).build();
+		}
+		else{
+			Rating rating = gebruiker.getRating(imdbId);
+			if (rating ==null){
+				Error errorcode = new Error();
+				return Response.status(404).entity(errorcode.getErrorMessage(404)).build();
+			}
+			return Response.ok().entity(rating).build();
+		}
+	}
 	
 	/**
 	 * Methode voor het verwijderen van een rating
