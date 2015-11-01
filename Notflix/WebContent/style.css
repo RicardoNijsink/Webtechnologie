@@ -15,8 +15,8 @@
 }
 
 .thumbnail{
-	overflow:auto;
-	height: 100vh;
+	height: 100%;
+	background: rgba(255,255,255,0.8);
 }
 
 .black_overlay{
@@ -62,6 +62,17 @@ a{
 	width: 40%;
 }
 
+th{
+	font-size: 4vw;
+}
+
+td{
+	font-size: 3vw;
+}
+
+.panel.panel-default{
+  background: rgba(255,255,255,0.8);
+}
 .table{
   font-family: TextFont;
 }
@@ -152,16 +163,20 @@ label{
 }
 
 .filmFoto{
-  max-height: 600px;
-  max-width: 400px;
+  max-height: 444px;
+  max-width: 300px;
 }
 
 .caption{
   text-align: center;
+  height: 100%;
+  max-height: 200px;
+  overflow: auto;
 }
 
 .filmInformatieDiv{
   text-align: left;
+  word-wrap: break-word; 
 }
 
 .row{
@@ -175,9 +190,11 @@ form{
   margin-left: 5px;
 }
 
-body{
-  background-image: url("http://dijitalkoleksiyon.files.wordpress.com/2012/09/credits-background.jpg");
-  background-repeat: no-repeat;
+body { 
+  background: url("http://dijitalkoleksiyon.files.wordpress.com/2012/09/credits-background.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
 }
 
@@ -209,6 +226,7 @@ h2, h3{
 .buttonNotflix {
   outline: none;
   margin-top: 4px;
+  margin-right: 2px;
   border: 2px solid #b34141;
   background: #ad4040;
   background: -webkit-gradient(linear, left top, left bottom, from(#e82323), to(#ad4040));
@@ -226,10 +244,37 @@ h2, h3{
   box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
   text-shadow: #7ea4bd 0 1px 0;
   color: #ffffff;
-  font-size: 19px;
+  font-size: 2vw;
   font-family: TextFont;
   text-decoration: none;
   vertical-align: middle;
+}
+
+.buttonNotflix_Small{
+	outline: none;
+	margin-top: 4px;
+	margin-right: 2px;
+	border: 2px solid #b34141;
+	background: #ad4040;
+	background: -webkit-gradient(linear, left top, left bottom, from(#e82323), to(#ad4040));
+	background: -webkit-linear-gradient(top, #e82323, #ad4040);
+	background: -moz-linear-gradient(top, #e82323, #ad4040);
+	background: -ms-linear-gradient(top, #e82323, #ad4040);
+	background: -o-linear-gradient(top, #e82323, #ad4040);
+	background-image: -ms-linear-gradient(top, #e82323 0%, #ad4040 100%);
+	padding: 10px 29px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-webkit-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+	-moz-box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+	box-shadow: rgba(255,255,255,0.4) 0 0px 0, inset rgba(255,255,255,0.4) 0 1px 0;
+	text-shadow: #7ea4bd 0 1px 0;
+	color: #ffffff;
+	font-size: 19px;
+	font-family: TextFont;
+	text-decoration: none;
+	vertical-align: middle;
 }
 
 form .has-error .control-label,
